@@ -146,10 +146,14 @@ func (r *runebuf) add(words []wordStruct, spaceType uint8) []wordStruct {
 }
 
 func isRoman(r []rune) bool {
+	Outer:
 	for _, rn := range r {
 		switch rn {
-			case 'i', 'v', 'x', 'm', 'c', 'd', 'l': continue
-			default: fmt.Println(`false`); return false
+			case 'i', 'v', 'x', 'm', 'c', 'd', 'l':
+				continue Outer
+			default:
+				fmt.Println(`false`)
+				return false
 		}
 	}
 	if _, ok := romanExceptions.Find(r); ok {
