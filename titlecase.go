@@ -23,7 +23,6 @@ import (
  "unicode"
  "unicode/utf8"
  "github.com/AlasdairF/BinSearch"
- "fmt"
 )
 
 const (
@@ -186,18 +185,14 @@ func isRoman(word []rune) bool {
 	for _, r = range word {
 		switch r {
 			case 'i', 'v', 'x', 'm', 'c', 'd', 'l':
-				fmt.Println(string(r), `OK`)
 				continue
 			default:
-				fmt.Println(string(r), `false`)
 				return false
 		}
 	}
 	if _, ok := romanExceptions.Find(word); ok {
-		fmt.Println(`nofind`)
 		return false
 	} else {
-		fmt.Println(`find`)
 		return true
 	}
 }
@@ -313,13 +308,9 @@ func Format(str string, language uint8) string {
 		content = ws.content
 		ln = len(content)
 		
-		fmt.Println(`Testing`, string(content))
-		
 		// Uppercase roman numerals
 		if isRoman(content) {
-			fmt.Println(`ROMAN before`, string(content))
 			upperRune(content, -1) // -1 means uppercase all
-			fmt.Println(`ROMAN after`, string(content))
 			continue
 		}
 		
