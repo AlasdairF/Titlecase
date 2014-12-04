@@ -86,7 +86,7 @@ func (r *runebuf) add(words []wordStruct, spaceType uint8) []wordStruct {
 	w := r.runes[0:l]
 	puncBefore := make([]rune, 0)
 	puncAfter := make([]rune, 0)
-	var i, i2 i3 int
+	var i, i2, i3 int
 	// Get punctuation before word
 	for i=0; i<l; i++ {
 		if unicode.IsPunct(w[i]) {
