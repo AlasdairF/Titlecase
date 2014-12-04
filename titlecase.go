@@ -26,12 +26,12 @@ import (
 )
 
 const (
- generic = 0
- english = 1
- french  = 2
- german  = 3
- italian = 4
- spanish = 5
+ Generic = 0
+ English = 1
+ French  = 2
+ German  = 3
+ Italian = 4
+ Spanish = 5
 )
 
 var romanExceptions binsearch.Key_runes
@@ -176,11 +176,11 @@ func Format(str string, language uint8) string {
 
 	var small binsearch.Key_runes
 	switch language {
-		case english: small = englishSmall
-		//case french: small = frenchSmall
-		//case german: small = germanSmall
-		//case italian: small = italianSmall
-		//case spanish: small = spanishSmall
+		case English: small = englishSmall
+		//case French: small = frenchSmall
+		//case German: small = germanSmall
+		//case Italian: small = italianSmall
+		//case Spanish: small = spanishSmall
 	}
 	
 	// Preprocessing
@@ -275,7 +275,7 @@ func Format(str string, language uint8) string {
 		}
 		
 		// Repair grammatical error on a -> an
-		if language == english {
+		if language == English {
 			if ln == 1 {
 				if content[0] == 'a' {
 					tmp := words[i+1].content
