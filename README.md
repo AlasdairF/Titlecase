@@ -20,7 +20,7 @@ This is a production-quality package made for cleaning and formatting book title
 
 ##Usage
 
-    unformatted := ` this is a title by a. forsythe, made to demonstrate an example. WRITTEN ON 5TH DECEMBER, 2014.`
+    unformatted := ` this is a title by a. forsythe, made to demonstrate a example. WRITTEN ON 5TH DECEMBER, 2014.`
     formatted := titlecase.Format(unformatted, titlecase.English)
     // This Is a Title by A. Forsythe, Made to Demonstrate an Example; Written on 5th December, 2014
     
