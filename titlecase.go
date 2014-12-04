@@ -149,15 +149,15 @@ func isRoman(r []rune) bool {
 	for _, rn := range r {
 		switch rn {
 			case 'i', 'v', 'x', 'm', 'c', 'd', 'l': continue
-			default: return false; fmt.Println(`false`)
+			default: fmt.Println(`false`); return false
 		}
 	}
 	if _, ok := romanExceptions.Find(r); ok {
-		return false
 		fmt.Println(`nofind`)
+		return false
 	} else {
-		return true
 		fmt.Println(`find`)
+		return true
 	}
 }
 
