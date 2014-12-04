@@ -345,7 +345,7 @@ func removeBytes(s []byte, a byte, b byte) []byte {
 }
 
 // Replaces an individual byte
-func replaceRune(s []rune, from byte, to byte) {
+func replaceRune(s []rune, from rune, to rune) {
 	for i, v := range s {
 		if v == from {
 			s[i] = to
