@@ -148,7 +148,7 @@ func (r *runebuf) add(words []wordStruct, spaceType uint8) []wordStruct {
 func isRoman(r []rune) bool {
 	for _, rn := range r {
 		switch rn {
-			case 'm', 'c', 'd', 'x', 'l', 'v', 'i': continue
+			case 'i', 'v', 'x', 'm', 'c', 'd', 'l': continue
 			default: return false
 		}
 	}
@@ -239,14 +239,12 @@ func Format(str string, language uint8) string {
 			case '[', '{': r = '('
 			case ']', '}': r = ')'
 		}
-		fmt.Print(word.len, ` `)
 		word.write(r)
 	}
 	if word.len > 0 {
 		words = word.add(words, 4)
 	}
 	word = nil
-	fmt.Println()
 	
 	// Determine isStart from isEnd
 	l := len(words)
@@ -273,7 +271,9 @@ func Format(str string, language uint8) string {
 		
 		// Uppercase roman numerals
 		if isRoman(content) {
+			fmt.Println(`ROMAN before`, content)
 			upperRune(content, -1) // -1 means uppercase all
+			fmt.Println(`ROMAN after`, content)
 			continue
 		}
 		
