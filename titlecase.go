@@ -101,7 +101,7 @@ func (r *runebuf) add(words []wordStruct, spaceType uint8) []wordStruct {
 		}
 	}
 	i2++
-	puncAfter := make([]rune, 0, l - i2)
+	puncAfter := make([]rune, l - i2)
 	for i3=i2; i3<l; i3++ {
 		puncAfter[i4] = w[i3]
 		i4++
