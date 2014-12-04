@@ -207,7 +207,7 @@ func (r *runebuf) add(words []wordStruct, spaceType uint8) []wordStruct {
 		rn = w[i3]
 		switch rn {
 			case '.', ',', ';', ':', '!', '?', '&': // if any of these occur in the middle of a word (surrounded by letters) then split into two words
-				noise = append(noise, i4)
+				noise = append(noise, i4 + 1)
 			case 39, '’':
 				if int(i4) < (i2 - i) - 2 {
 					contraction = i4
@@ -226,10 +226,10 @@ func (r *runebuf) add(words []wordStruct, spaceType uint8) []wordStruct {
 			saver := make([]rune, len(content))
 			copy(saver, content)
 			r.runes = puncBefore
-			r.runes = append(r.runes, saver[0:noise[0]+1]...)
+			r.runes = append(r.runes, saver[0:noise[0]]...)
 			r.len = len(r.runes)
 			words = r.add(words, 1)
-			r.runes = saver[noise[0]+1:]
+			r.runes = saver[noise[0]:]
 			r.runes = append(r.runes, puncAfter...)
 			r.len = len(r.runes)
 			words = r.add(words, 1)
@@ -332,7 +332,7 @@ func upperRune(word []rune, which int) {
 	word[which] = unicode.ToTitle(word[which])
 }
 
-// Removes an individual byte from a slice of bytes
+// Removes 2 individual bytes from a slice of bytes
 func removeBytes(s []byte, a byte, b byte) []byte {
 	var on int
 	for _, v := range s {
@@ -342,6 +342,15 @@ func removeBytes(s []byte, a byte, b byte) []byte {
 		}
 	}
 	return s[0:on]
+}
+
+// Replaces an individual byte
+func replaceByte(s []byte, from byte, to byte) {
+	for i, v := range s {
+		if v == from {
+			s[i] = to
+		}
+	}
 }
 
 func Format(str string, language uint8) string {
@@ -363,6 +372,7 @@ func Format(str string, language uint8) string {
 	b = bytes.Replace(b, []byte("—"), []byte(" — "), -1) // Separate out em dashes
 	b = bytes.Replace(b, []byte(" - "), []byte(" — "), -1) // Correct hyphens to em dashes
 	b = bytes.Replace(b, []byte("[microform]"), []byte(""), -1)
+	replaceByte(b, '.', ';')
 	b = bytes.Trim(b, ` ;:.,`)
 	if b[0] == '(' {
 		b = removeBytes(b, '(', ')')
