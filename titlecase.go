@@ -115,6 +115,7 @@ func (r *runebuf) add(words []wordStruct, spaceType uint8) []wordStruct {
 		rn = w[i3]
 		switch rn {
 			case '.', ',', ';', ':', '!', '?', '&': // if any of these occur in the middle of a word (surrounded by letters) then split into two words
+				backup := r.runes
 				r.runes = w[i:i3+1]
 				r.len = (i3 - i)+1
 				words = r.add(words, 1)
@@ -122,6 +123,7 @@ func (r *runebuf) add(words []wordStruct, spaceType uint8) []wordStruct {
 				r.len = len(r.runes)
 				words = r.add(words, 1)
 				r.len = 0
+				r.runes = backup
 				return words
 		}
 		content[i4] = unicode.ToLower(w[i3])
