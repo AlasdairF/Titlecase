@@ -66,12 +66,36 @@ func init() {
 	
 	// Initate exceptions for honor
 	honor.Key = [][]rune {
-	 []rune("m.d"), []rune("ph.d"),
+	 []rune("a.a"), []rune("a.a.s"), []rune("a.a.t"), []rune("a.o.t"), []rune("a.s"), []rune("b.a"), []rune("b.a.b.a"), []rune("b.a.com"), []rune("b.a.e"), []rune("b.a.ed"), []rune("b.arch"), []rune("b.a.s"), []rune("b.b.a"), 
+	 []rune("b.b.e"), []rune("b.c.e"), []rune("b.che.e"), []rune("b.e.e"), []rune("b.f.a"), []rune("b.g.s"), []rune("b.i.arch"), []rune("b.in.dsn"), []rune("b.i.s"), []rune("b.i.s.e"), []rune("b.l.a"), []rune("b.m"), []rune("b.m.e"),
+	 []rune("b.m.ed"), []rune("b.mtl.e"), []rune("b.p.f.e"), []rune("b.p.h.s"), []rune("b.s"), []rune("b.s.a.e"), []rune("b.s.b.a"), []rune("b.s.b.m.e"), []rune("b.s.c.b.a"), []rune("b.s.c.e"), []rune("b.s.che.e"), []rune("b.s.chem"),
+	 []rune("b.s.c.s"), []rune("b.s.e"), []rune("b.s.ed"), []rune("b.s.e.e"), []rune("b.s.e.t"), []rune("b.s.geo"), []rune("b.s.h.e.s"), []rune("b.s.m.e"), []rune("b.s.met"), []rune("b.s.micr"), []rune("b.s.mt.e"), []rune("b.s.n"),
+	 []rune("b.s.s.w"), []rune("b.s.w"), []rune("b.sw.e"), []rune("b.t.e"), []rune("b.t.m.t"), []rune("b.w.e"), []rune("ll.m"), []rune("m.a"), []rune("m.acc"), []rune("m.acct"), []rune("m.a.e"), []rune("m.a.ed"), []rune("m.agric"),
+	 []rune("m.a.m"), []rune("m.aqua"), []rune("m.a.t"), []rune("m.b.a"), []rune("m.b.c"), []rune("m.c.d"), []rune("m.c.e"), []rune("m.che.e"), []rune("m.com"), []rune("m.comm.pl"), []rune("m.ed"), []rune("m.e.e"), []rune("m.eng"),
+	 []rune("m.f.a"), []rune("m.his.st"), []rune("m.h.s"), []rune("m.i.d.c"), []rune("m.in.dsn"), []rune("m.i.s.e"), []rune("m.l.a"), []rune("m.l.arch"), []rune("m.l.i.s"), []rune("m.m"), []rune("m.m.e"), []rune("m.mtl.e"),
+	 []rune("m.n.a"), []rune("m.n.r"), []rune("m.p.a"), []rune("m.p.h"), []rune("m.prob.s"), []rune("m.pr.s"), []rune("m.p.s"), []rune("m.p.t.c"), []rune("m.r.c"), []rune("m.r.e.d"), []rune("m.s"), []rune("m.s.a.e"),
+	 []rune("m.s.b.m.e"), []rune("m.s.b.m.s"), []rune("m.s.c"), []rune("m.s.c.e"), []rune("m.s.che.e"), []rune("m.s.chem"), []rune("m.s.c.j"), []rune("m.s.c.s"), []rune("m.s.e"), []rune("m.s.ed"), []rune("m.s.e.e"),
+	 []rune("m.s.e.s.m"), []rune("m.s.f.s"), []rune("m.s.h.a"), []rune("m.s.h.e.s"), []rune("m.s.h.i"), []rune("m.s.i.e"), []rune("m.s.i.l.a"), []rune("m.s.i.s"), []rune("m.s.j.p.s"), []rune("m.s.m.e"), []rune("m.s.met"),
+	 []rune("m.s.m.sci"), []rune("m.s.mt.e"), []rune("m.s.n"), []rune("m.s.o.r"), []rune("m.s.o.t"), []rune("m.s.p.a.s"), []rune("m.s.p.h"), []rune("m.s.s.e"), []rune("m.s.w"), []rune("m.sw.e"), []rune("m.t.a"), []rune("m.tx"),
+	 []rune("m.u.r.p"), []rune("ed.s"), []rune("au.d"), []rune("d.b.a"), []rune("d.m.a"), []rune("d.m.d"), []rune("d.n.p"), []rune("d.p.t"), []rune("dr.p.h"), []rune("d.sc"), []rune("d.v.m"), []rune("ed.d"), []rune("j.d"),
+	 []rune("m.d"), []rune("o.d"), []rune("pharm.d"), []rune("ph.d"),
 	}
 	honor.format = [][]rune {
-	 []rune("M.D"), []rune("Ph.D"),
+	 []rune("A.A"), []rune("A.A.S"), []rune("A.A.T"), []rune("A.O.T"), []rune("A.S"), []rune("B.A"), []rune("B.A.B.A"), []rune("B.A.Com"), []rune("B.A.E"), []rune("B.A.Ed"), []rune("B.Arch"), []rune("B.A.S"), []rune("B.B.A"), 
+	 []rune("B.B.E"), []rune("B.C.E"), []rune("B.Che.E"), []rune("B.E.E"), []rune("B.F.A"), []rune("B.G.S"), []rune("B.I.Arch"), []rune("B.In.Dsn"), []rune("B.I.S"), []rune("B.I.S.E"), []rune("B.L.A"), []rune("B.M"), []rune("B.M.E"),
+	 []rune("B.M.Ed"), []rune("B.Mtl.E"), []rune("B.P.F.E"), []rune("B.P.H.S"), []rune("B.S"), []rune("B.S.A.E"), []rune("B.S.B.A"), []rune("B.S.B.M.E"), []rune("B.S.C.B.A"), []rune("B.S.C.E"), []rune("B.S.Che.E"), []rune("B.S.Chem"),
+	 []rune("B.S.C.S"), []rune("B.S.E"), []rune("B.S.Ed"), []rune("B.S.E.E"), []rune("B.S.E.T"), []rune("B.S.Geo"), []rune("B.S.H.E.S"), []rune("B.S.M.E"), []rune("B.S.Met"), []rune("B.S.Micr"), []rune("B.S.Mt.E"), []rune("B.S.N"),
+	 []rune("B.S.S.W"), []rune("B.S.W"), []rune("B.Sw.E"), []rune("B.T.E"), []rune("B.T.M.T"), []rune("B.W.E"), []rune("LL.M"), []rune("M.A"), []rune("M.Acc"), []rune("M.Acct"), []rune("M.A.E"), []rune("M.A.Ed"), []rune("M.Agric"),
+	 []rune("M.A.M"), []rune("M.Aqua"), []rune("M.A.T"), []rune("M.B.A"), []rune("M.B.C"), []rune("M.C.D"), []rune("M.C.E"), []rune("M.Che.E"), []rune("M.Com"), []rune("M.Comm.Pl"), []rune("M.Ed"), []rune("M.E.E"), []rune("M.Eng"),
+	 []rune("M.F.A"), []rune("M.His.St"), []rune("M.H.S"), []rune("M.I.D.C"), []rune("M.In.Dsn"), []rune("M.I.S.E"), []rune("M.L.A"), []rune("M.L.Arch"), []rune("M.L.I.S"), []rune("M.M"), []rune("M.M.E"), []rune("M.Mtl.E"),
+	 []rune("M.N.A"), []rune("M.N.R"), []rune("M.P.A"), []rune("M.P.H"), []rune("M.Prob.S"), []rune("M.Pr.S"), []rune("M.P.S"), []rune("M.P.T.C"), []rune("M.R.C"), []rune("M.R.E.D"), []rune("M.S"), []rune("M.S.A.E"),
+	 []rune("M.S.B.M.E"), []rune("M.S.B.M.S"), []rune("M.S.C"), []rune("M.S.C.E"), []rune("M.S.Che.E"), []rune("M.S.Chem"), []rune("M.S.C.J"), []rune("M.S.C.S"), []rune("M.S.E"), []rune("M.S.Ed"), []rune("M.S.E.E"),
+	 []rune("M.S.E.S.M"), []rune("M.S.F.S"), []rune("M.S.H.A"), []rune("M.S.H.E.S"), []rune("M.S.H.I"), []rune("M.S.I.E"), []rune("M.S.I.L.A"), []rune("M.S.I.S"), []rune("M.S.J.P.S"), []rune("M.S.M.E"), []rune("M.S.Met"),
+	 []rune("M.S.M.Sci"), []rune("M.S.Mt.E"), []rune("M.S.N"), []rune("M.S.O.R"), []rune("M.S.O.T"), []rune("M.S.P.A.S"), []rune("M.S.P.H"), []rune("M.S.S.E"), []rune("M.S.W"), []rune("M.Sw.E"), []rune("M.T.A"), []rune("M.Tx"),
+	 []rune("M.U.R.P"), []rune("Ed.S"), []rune("Au.D"), []rune("D.B.A"), []rune("D.M.A"), []rune("D.M.D"), []rune("D.N.P"), []rune("D.P.T"), []rune("Dr.P.H"), []rune("D.Sc"), []rune("D.V.M"), []rune("Ed.D"), []rune("J.D"),
+	 []rune("M.D"), []rune("O.D"), []rune("Pharm.D"), []rune("Ph.D"),
 	}
-	temp := make([]int, len(honor.format))
+	temp := make([][]rune, len(honor.format))
 	newindexes := honor.Build()
 	for indx_new, indx_old := range newindexes {
 		temp[indx_new] = honor.format[indx_old]
@@ -185,7 +209,7 @@ func (r *runebuf) add(words []wordStruct, spaceType uint8) []wordStruct {
 			case '.', ',', ';', ':', '!', '?', '&': // if any of these occur in the middle of a word (surrounded by letters) then split into two words
 				noise = append(noise, i4)
 			case 39, '’':
-				if i4 < (i2 - i) - 2 {
+				if int(i4) < (i2 - i) - 2 {
 					contraction = i4
 				}
 		}
@@ -194,9 +218,9 @@ func (r *runebuf) add(words []wordStruct, spaceType uint8) []wordStruct {
 	}
 	// Check if any noise occurred
 	if len(noise) > 0 {
-		if id, ok := honors.Find(content); ok { // if it's an honor then save the way it should be displayed
+		if id, ok := honor.Find(content); ok { // if it's an honor then save the way it should be displayed
 			isHonor = true
-			content = honors.format[id]
+			content = honor.format[id]
 		} else { // if it's not then split the word
 			backup := r.runes
 			saver := make([]rune, len(content))
