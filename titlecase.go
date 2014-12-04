@@ -145,18 +145,19 @@ func (r *runebuf) add(words []wordStruct, spaceType uint8) []wordStruct {
 	return words
 }
 
-func isRoman(r []rune) bool {
-	Outer:
-	for _, rn := range r {
-		switch rn {
+func isRoman(word []rune) bool {
+	var r rune
+	for _, r = range word {
+		switch r {
 			case 'i', 'v', 'x', 'm', 'c', 'd', 'l':
-				continue Outer
+				fmt.Println(string(r), `OK`)
+				continue
 			default:
-				fmt.Println(`false`)
+				fmt.Println(string(r), `false`)
 				return false
 		}
 	}
-	if _, ok := romanExceptions.Find(r); ok {
+	if _, ok := romanExceptions.Find(word); ok {
 		fmt.Println(`nofind`)
 		return false
 	} else {
@@ -165,14 +166,14 @@ func isRoman(r []rune) bool {
 	}
 }
 
-func upperRune(r []rune, which int) {
+func upperRune(word []rune, which int) {
 	if which == -1 {
-		for i, rn := range r {
-			r[i] = unicode.ToTitle(rn)
+		for i, r := range word {
+			word[i] = unicode.ToTitle(r)
 		}
 		return
 	}
-	r[which] = unicode.ToTitle(r[which])
+	word[which] = unicode.ToTitle(word[which])
 }
 
 // Removes an individual byte from a slice of bytes
