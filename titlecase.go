@@ -99,6 +99,7 @@ type wordStruct struct {
  content []rune
  isStart bool
  isEnd bool
+ contraction uint8
  spaceAfter uint8 // 0=nothing, 1=space, 2=hypen, 3=slash, 4=end
  puncBefore []rune
  puncAfter []rune
@@ -144,6 +145,7 @@ func (r *runebuf) add(words []wordStruct, spaceType uint8) []wordStruct {
 	}
 	// Get word
 	var rn rune
+	var contraction uint8
 	i4 = 0
 	content := make([]rune, i2 - i)
 	for i3=i; i3<i2; i3++ {
@@ -160,6 +162,10 @@ func (r *runebuf) add(words []wordStruct, spaceType uint8) []wordStruct {
 				r.len = 0
 				r.runes = backup
 				return words
+			case 39, '’':
+				if i4 < (i2 - i) - 2 {
+					contraction = uint8(i4)
+				}
 		}
 		content[i4] = unicode.ToLower(w[i3])
 		i4++
@@ -176,7 +182,7 @@ func (r *runebuf) add(words []wordStruct, spaceType uint8) []wordStruct {
 	}
 	// Reset buffer
 	r.len = 0
-	words = append(words, wordStruct{content, false, isEnd, spaceType, puncBefore, puncAfter})
+	words = append(words, wordStruct{content, false, isEnd, contraction, spaceType, puncBefore, puncAfter})
 	return words
 }
 
@@ -195,6 +201,53 @@ func isRoman(word []rune) bool {
 	} else {
 		return true
 	}
+}
+
+func isContraction(wb []rune) bool {
+	switch len(wb) {
+		case 1:
+			switch wb[0] {
+				case 'b': fallthrough
+				case 's': fallthrough
+				case 'd': fallthrough
+				case 'n': fallthrough
+				case 'l': fallthrough
+				case 'm': fallthrough
+				case 't': fallthrough
+				case 'v': fallthrough
+				case 'j': return true
+			}
+		case 2:
+			if (wb[0]=='u' && wb[1]=='n') || (wb[0]=='q' && wb[1]=='u') || (wb[0]=='g' && wb[1]=='l') {
+				return true
+			}
+		case 3:
+			if (wb[0]=='a' && wb[1]=='l' && wb[2]=='l') || (wb[0]=='a' && wb[1]=='g' && wb[2]=='l') {
+				return true
+			}
+		case 4:
+			if (wb[3]!='l') {
+				return false
+			}
+			if (wb[2]!='l' && wb[2]!='g') {
+				return false
+			}
+			switch wb[1] {
+				case 'a': fallthrough
+				case 'e': fallthrough
+				case 'u': fallthrough
+				case 'o':
+					switch wb[0] {
+						case 'd': fallthrough
+						case 'n': fallthrough
+						case 's': fallthrough
+						case 'c': fallthrough
+						case 'p': return true
+					}
+				
+			}
+	}
+	return false
 }
 
 func upperRune(word []rune, which int) {
@@ -234,6 +287,7 @@ func Format(str string, language uint8) string {
 	// Preprocessing
 	str = html.UnescapeString(str)
 	b := []byte(str)
+	b = bytes.Replace(b, []byte("--"), []byte("—"), -1) // Correct hyphens to em dashes
 	b = bytes.Replace(b, []byte("—"), []byte(" — "), -1) // Separate out em dashes
 	b = bytes.Replace(b, []byte(" - "), []byte(" — "), -1) // Correct hyphens to em dashes
 	b = bytes.Replace(b, []byte("[microform]"), []byte(""), -1)
@@ -268,13 +322,13 @@ func Format(str string, language uint8) string {
 			case '-':
 				if word.len > 0 {
 					words = word.add(words, 2)
+					continue
 				}
-				continue
 			case '/':
 				if word.len > 0 {
 					words = word.add(words, 3)
+					continue
 				}
-				continue
 			case '[', '{': r = '('
 			case ']', '}': r = ')'
 		}
@@ -323,8 +377,8 @@ func Format(str string, language uint8) string {
 			}
 		}
 		
-		// Repair grammatical error on a -> an
 		if language == English {
+			// Special for English: repair grammatical error on a -> an
 			if ln == 1 {
 				if content[0] == 'a' {
 					tmp := words[i+1].content
@@ -336,6 +390,16 @@ func Format(str string, language uint8) string {
 								ln = 2
 						}
 					}
+				}
+			}
+		} else {
+			// Check for contractions
+			if ws.contraction > 0 && language != German {
+				if isContraction(content[0:ws.contraction]) {
+					if ws.isStart {
+						upperRune(content, 0)
+					}
+					content = ws.content[ws.contraction+1:]
 				}
 			}
 		}
