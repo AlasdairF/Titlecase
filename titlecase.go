@@ -21,7 +21,7 @@ import (
  "html"
  "bytes"
  "unicode"
- "utf8"
+ "unicode/utf8"
  "github.com/AlasdairF/BinSearch"
 )
 
