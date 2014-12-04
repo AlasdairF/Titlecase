@@ -372,7 +372,6 @@ func Format(str string, language uint8) string {
 	b = bytes.Replace(b, []byte("—"), []byte(" — "), -1) // Separate out em dashes
 	b = bytes.Replace(b, []byte(" - "), []byte(" — "), -1) // Correct hyphens to em dashes
 	b = bytes.Replace(b, []byte("[microform]"), []byte(""), -1)
-	replaceByte(b, '.', ';')
 	b = bytes.Trim(b, ` ;:.,`)
 	if b[0] == '(' {
 		b = removeBytes(b, '(', ')')
@@ -459,6 +458,7 @@ func Format(str string, language uint8) string {
 			if content[0] == 'm' && content[1] == 'c' {
 				upperRune(content, 0)
 				upperRune(content, 2)
+				replaceByte(ws.puncAfter, '.', ';')
 				continue
 			}
 		}
@@ -492,27 +492,35 @@ func Format(str string, language uint8) string {
 		
 		if _, ok = makecaps.Find(content); ok {
 			upperRune(content, -1)
+			replaceByte(ws.puncAfter, '.', ';')
 			continue
 		}
 		
 		// Beginning and ending words need to be capitalized regardless of what they are
 		if ws.isStart || ws.isEnd {
 			upperRune(content, 0)
+			if ln > 1 {
+				replaceByte(ws.puncAfter, '.', ';')
+			}
 			continue
 		}
 		
 		// Check for small words to keep lowercase, using binary search
 		if _, ok = small.Find(content); ok {
-			// Exception if it's 1 letter with following punctuation or the next word is also 1 letter
+			// Exception if it's 1 letter with following punctuation or the next word or previous word are also 1 letter
 			if ln > 1 {
+				replaceByte(ws.puncAfter, '.', ';')
 				continue
 			}
-			if len(words[i+1].content) > 1 {
+			if len(words[i-1].content) > 1 && len(words[i+1].content) > 1 {
 				continue
 			}
+			upperRune(content, 0)
+			continue
 		}
 		
 		// Uppercase the first rune if none of the previous rules applied
+		replaceByte(ws.puncAfter, '.', ';')
 		upperRune(content, 0)
 	}
 	
