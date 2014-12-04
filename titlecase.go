@@ -37,7 +37,13 @@ const (
  Latin 		= 8
 )
 
-var romanExceptions, englishSmall, frenchSmall, germanSmall, italianSmall, spanishSmall, dutchSmall, portugueseSmall, latinSmall binsearch.Key_runes
+type honor struct {
+ binsearch.Key_runes
+ format [][]rune
+}
+
+var romanExceptions, makecaps, englishSmall, frenchSmall, germanSmall, italianSmall, spanishSmall, dutchSmall, portugueseSmall, latinSmall binsearch.Key_runes
+
 func init() {
 
 	// Initate exceptions for Roman numerals
@@ -45,11 +51,31 @@ func init() {
 	 []rune("ci"), []rune("cid"), []rune("cill"), []rune("civic"), []rune("civil"), []rune("clim"), []rune("cm"), []rune("di"), []rune("did"), []rune("didi"), []rune("dill"), []rune("dilli"),
 	 []rune("dim"), []rune("divi"), []rune("dividivi"), []rune("dix"), []rune("dixi"), []rune("dixil"), []rune("dm"), []rune("id"), []rune("ill"), []rune("im"), []rune("imid"), []rune("imidic"),
 	 []rune("immix"), []rune("ld"), []rune("li"), []rune("lid"), []rune("lil"), []rune("lili"), []rune("lill"), []rune("lilli"), []rune("lim"), []rune("liv"), []rune("livi"), []rune("livid"),
-	 []rune("livvi"), []rune("lm"), []rune("lviv"), []rune("md"), []rune("mic"), []rune("mid"), []rune("midi"), []rune("mil"), []rune("mild"), []rune("mill"), []rune("milli"), []rune("mim"),
+	 []rune("livvi"), []rune("lm"), []rune("lviv"), []rune("mic"), []rune("mid"), []rune("midi"), []rune("mil"), []rune("mild"), []rune("mill"), []rune("milli"), []rune("mim"),
 	 []rune("mimi"), []rune("mimic"), []rune("mix"), []rune("mv"), []rune("vi"), []rune("vic"), []rune("vici"), []rune("vid"), []rune("vild"), []rune("vill"), []rune("villi"), []rune("vim"),
-	 []rune("viv"), []rune("vivi"), []rune("vivid"), []rune("vivl"),
+	 []rune("viv"), []rune("vivi"), []rune("vivid"), []rune("vivl"), //[]rune("md"),
 	}
 	romanExceptions.Build()
+	
+	// Initate exceptions for ALLCAPS
+	makecaps.Key = [][]rune {
+	 []rune("abc"), []rune("usa"), []rune("ussr"), []rune("usaf"), []rune("uscg"), []rune("usmc"), []rune("usn"), []rune("ymca"), []rune("raf"), []rune("uk"),
+	}
+	makecaps.Build()
+	
+	// Initate exceptions for honor
+	honor.Key = [][]rune {
+	 []rune("m.d"), []rune("ph.d"),
+	}
+	honor.format = [][]rune {
+	 []rune("M.D"), []rune("Ph.D"),
+	}
+	temp := make([]int, len(honor.format))
+	newindexes := honor.Build()
+	for indx_new, indx_old := range newindexes {
+		temp[indx_new] = honor.format[indx_old]
+	}
+	honor.format = temp
 	
 	// Initiate exceptions for English small words
 	englishSmall.Key = [][]rune {
@@ -99,6 +125,7 @@ type wordStruct struct {
  content []rune
  isStart bool
  isEnd bool
+ isHonor bool
  contraction uint8
  spaceAfter uint8 // 0=nothing, 1=space, 2=hypen, 3=slash, 4=end
  puncBefore []rune
@@ -122,7 +149,8 @@ func (r *runebuf) add(words []wordStruct, spaceType uint8) []wordStruct {
 	l := r.len
 	w := r.runes[0:l]
 	puncBefore := make([]rune, 0)
-	var i, i2, i3, i4 int
+	var i, i2, i3 int
+	var i4 uint8
 	// Get punctuation before word
 	for i=0; i<l; i++ {
 		if unicode.IsPunct(w[i]) {
@@ -145,31 +173,45 @@ func (r *runebuf) add(words []wordStruct, spaceType uint8) []wordStruct {
 	}
 	// Get word
 	var rn rune
+	var isHonor bool
 	var contraction uint8
 	i4 = 0
 	content := make([]rune, i2 - i)
+	noise := make([]uint8, 0)
 	for i3=i; i3<i2; i3++ {
 		rn = w[i3]
 		switch rn {
 			case '.', ',', ';', ':', '!', '?', '&': // if any of these occur in the middle of a word (surrounded by letters) then split into two words
-				backup := r.runes
-				r.runes = w[i:i3+1]
-				r.len = (i3 - i)+1
-				words = r.add(words, 1)
-				r.runes = w[i3+1:]
-				r.len = len(r.runes)
-				words = r.add(words, 1)
-				r.len = 0
-				r.runes = backup
-				return words
+				noise = append(noise, i4)
 			case 39, '’':
 				if i4 < (i2 - i) - 2 {
-					contraction = uint8(i4)
+					contraction = i4
 				}
 		}
 		content[i4] = unicode.ToLower(w[i3])
 		i4++
 	}
+	// Check if any noise occurred
+	if len(noise) > 0 {
+		if id, ok := honors.Find(content); ok { // if it's an honor then save the way it should be displayed
+			isHonor = true
+			content = honors.format[id]
+		} else { // if it's not then split the word
+			backup := r.runes
+			saver := make([]rune, len(content))
+			copy(saver, content)
+			r.runes = saver[0:noise[0]]
+			r.len = len(r.runes)
+			words = r.add(words, 1)
+			r.runes = saver[noise[0]+1:]
+			r.len = len(r.runes)
+			words = r.add(words, 1)
+			r.len = 0
+			r.runes = backup
+			return words
+		}
+	}
+	
 	// Determine if this is an ending, that means any punctuation except an aprostrophe
 	var isEnd bool
 	if len(puncAfter) > 0 {
@@ -182,7 +224,7 @@ func (r *runebuf) add(words []wordStruct, spaceType uint8) []wordStruct {
 	}
 	// Reset buffer
 	r.len = 0
-	words = append(words, wordStruct{content, false, isEnd, contraction, spaceType, puncBefore, puncAfter})
+	words = append(words, wordStruct{content, false, isEnd, isHonor, contraction, spaceType, puncBefore, puncAfter})
 	return words
 }
 
@@ -253,6 +295,9 @@ func isContraction(wb []rune) bool {
 func upperRune(word []rune, which int) {
 	if which == -1 {
 		for i, r := range word {
+			if r == 39 || r == '’' { // stop uppercasing when an apostrophe is reached
+				return
+			}
 			word[i] = unicode.ToTitle(r)
 		}
 		return
@@ -362,6 +407,10 @@ func Format(str string, language uint8) string {
 		content = ws.content
 		ln = len(content)
 		
+		if ws.isHonor {
+			continue
+		}
+		
 		// Uppercase roman numerals
 		if isRoman(content) {
 			upperRune(content, -1) // -1 means uppercase all
@@ -402,6 +451,11 @@ func Format(str string, language uint8) string {
 					content = ws.content[ws.contraction+1:]
 				}
 			}
+		}
+		
+		if _, ok = makecaps.Find(content); ok {
+			upperRune(content, -1)
+			continue
 		}
 		
 		// Beginning and ending words need to be capitalized regardless of what they are
