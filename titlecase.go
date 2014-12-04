@@ -109,13 +109,14 @@ func (r *runebuf) add(words []wordStruct, spaceType uint8) []wordStruct {
 	for i3=i; i3<=i2; i3++ {
 		rn = w[i]
 		switch rn {
-			case '.', ',', ';', ':', '!', '?', '&': // if any of these occur in the middle of a word then split into two words
+			case '.', ',', ';', ':', '!', '?', '&': // if any of these occur in the middle of a word (surrounded by letters) then split into two words
 				r.runes = w[i:i3+1]
 				r.len = (i3 - i)+1
 				words = r.add(words, 1)
 				r.runes = w[i3+1:]
 				r.len = len(r.runes)
 				words = r.add(words, 1)
+				r.len = 0
 				return words
 		}
 		content[i3] = unicode.ToLower(w[i3])
@@ -131,7 +132,6 @@ func (r *runebuf) add(words []wordStruct, spaceType uint8) []wordStruct {
 		}
 	}
 	// Reset buffer
-	r.len = 0
 	words = append(words, wordStruct{content, false, isEnd, spaceType, puncBefore, puncAfter})
 	return words
 }
@@ -217,12 +217,12 @@ func Format(str string, language uint8) string {
 			continue
 		}
 		switch r {
-			case 45:
+			case '-':
 				if word.len > 0 {
 					words = word.add(words, 2)
 				}
 				continue
-			case 47:
+			case '/':
 				if word.len > 0 {
 					words = word.add(words, 3)
 				}
@@ -319,7 +319,7 @@ func Format(str string, language uint8) string {
 		for _, r = range ws.puncBefore {
 			buf.WriteRune(r)
 		}
-		for _, r = range content {
+		for _, r = range ws.content {
 			buf.WriteRune(r)
 		}
 		for _, r = range ws.puncAfter {
