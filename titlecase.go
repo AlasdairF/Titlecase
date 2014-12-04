@@ -98,7 +98,7 @@ func (r *runebuf) add(words []wordStruct, spaceType uint8) []wordStruct {
 	// Get punctuation after the word
 	for i2=l-1; i2>i; i2-- {
 		if unicode.IsPunct(w[i2]) {
-			puncAfter = append(puncAfter, w[i])
+			puncAfter = append(puncAfter, w[i2])
 		} else {
 			break
 		}
@@ -118,7 +118,7 @@ func (r *runebuf) add(words []wordStruct, spaceType uint8) []wordStruct {
 				words = r.add(words, 1)
 				return words
 		}
-		content[i3] = unicode.ToLower(w[i])
+		content[i3] = unicode.ToLower(w[i3])
 	}
 	// Determine if this is an ending, that means any punctuation except an aprostrophe
 	var isEnd bool
@@ -319,7 +319,7 @@ func Format(str string, language uint8) string {
 		for _, r = range ws.puncBefore {
 			buf.WriteRune(r)
 		}
-		for _, r = range ws.content {
+		for _, r = range content {
 			buf.WriteRune(r)
 		}
 		for _, r = range ws.puncAfter {
