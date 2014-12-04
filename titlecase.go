@@ -34,25 +34,28 @@ const (
  spanish = 5
 )
 
-// Lists
 var romanExceptions binsearch.Key_runes
-romanExceptions.Key = [][]rune {
- []rune("ci"), []rune("cid"), []rune("cill"), []rune("civic"), []rune("civil"), []rune("clim"), []rune("cm"), []rune("di"), []rune("did"), []rune("didi"), []rune("dill"), []rune("dilli"),
- []rune("dim"), []rune("divi"), []rune("dividivi"), []rune("dix"), []rune("dixi"), []rune("dixil"), []rune("dm"), []rune("id"), []rune("ill"), []rune("im"), []rune("imid"), []rune("imidic"),
- []rune("immix"), []rune("ld"), []rune("li"), []rune("lid"), []rune("lil"), []rune("lili"), []rune("lill"), []rune("lilli"), []rune("lim"), []rune("liv"), []rune("livi"), []rune("livid"),
- []rune("livvi"), []rune("lm"), []rune("lviv"), []rune("md"), []rune("mic"), []rune("mid"), []rune("midi"), []rune("mil"), []rune("mild"), []rune("mill"), []rune("milli"), []rune("mim"),
- []rune("mimi"), []rune("mimic"), []rune("mix"), []rune("mv"), []rune("vi"), []rune("vic"), []rune("vici"), []rune("vid"), []rune("vild"), []rune("vill"), []rune("villi"), []rune("vim"),
- []rune("viv"), []rune("vivi"), []rune("vivid"), []rune("vivl"),
-}
-
 var englishSmall binsearch.Key_runes
-englishSmall.Key = [][]rune {
- []rune("a"), []rune("an"), []rune("and"), []rune("as"), []rune("at"), []rune("but"), []rune("by"), []rune("for"), []rune("if"), []rune("in"), []rune("of"), []rune("on"), []rune("or"), []rune("the"), []rune("to"),
-}
 
 func init() {
+
+	// Initate exceptions for Roman numerals
+	romanExceptions.Key = [][]rune {
+	 []rune("ci"), []rune("cid"), []rune("cill"), []rune("civic"), []rune("civil"), []rune("clim"), []rune("cm"), []rune("di"), []rune("did"), []rune("didi"), []rune("dill"), []rune("dilli"),
+	 []rune("dim"), []rune("divi"), []rune("dividivi"), []rune("dix"), []rune("dixi"), []rune("dixil"), []rune("dm"), []rune("id"), []rune("ill"), []rune("im"), []rune("imid"), []rune("imidic"),
+	 []rune("immix"), []rune("ld"), []rune("li"), []rune("lid"), []rune("lil"), []rune("lili"), []rune("lill"), []rune("lilli"), []rune("lim"), []rune("liv"), []rune("livi"), []rune("livid"),
+	 []rune("livvi"), []rune("lm"), []rune("lviv"), []rune("md"), []rune("mic"), []rune("mid"), []rune("midi"), []rune("mil"), []rune("mild"), []rune("mill"), []rune("milli"), []rune("mim"),
+	 []rune("mimi"), []rune("mimic"), []rune("mix"), []rune("mv"), []rune("vi"), []rune("vic"), []rune("vici"), []rune("vid"), []rune("vild"), []rune("vill"), []rune("villi"), []rune("vim"),
+	 []rune("viv"), []rune("vivi"), []rune("vivid"), []rune("vivl"),
+	}
 	romanExceptions.Build()
+	
+	// Initiate exceptions for English small words
+	englishSmall.Key = [][]rune {
+	 []rune("a"), []rune("an"), []rune("and"), []rune("as"), []rune("at"), []rune("but"), []rune("by"), []rune("for"), []rune("if"), []rune("in"), []rune("of"), []rune("on"), []rune("or"), []rune("the"), []rune("to"),
+	}
 	englishSmall.Build()
+	
 }
 
 // Structs
@@ -76,14 +79,16 @@ func (r *runebuf) write(rn rune) {
 func newRuneBuf() *runebuf {
 	r := new(runebuf)
 	r.runes = make([]rune, 256)
+	return r
 }
 func (r *runebuf) add(words []wordStruct, spaceType uint8) []wordStruct {
 	l := r.len
 	w := r.runes[0:l]
 	puncBefore := make([]rune, 0)
 	puncAfter := make([]rune, 0)
+	var i, i2 i3 int
 	// Get punctuation before word
-	for i:=0; i<l; i++ {
+	for i=0; i<l; i++ {
 		if unicode.IsPunct(w[i]) {
 			puncBefore = append(puncBefore, w[i])
 		} else {
@@ -91,7 +96,7 @@ func (r *runebuf) add(words []wordStruct, spaceType uint8) []wordStruct {
 		}
 	}
 	// Get punctuation after the word
-	for i2:=l-1; i2>i; i2-- {
+	for i2=l-1; i2>i; i2-- {
 		if unicode.IsPunct(w[i2]) {
 			puncAfter = append(puncAfter, w[i])
 		} else {
@@ -101,7 +106,7 @@ func (r *runebuf) add(words []wordStruct, spaceType uint8) []wordStruct {
 	// Get word
 	var rn rune
 	content := make([]rune, (i2-i)+1)
-	for i3:=i; i3<=i2; i3++ {
+	for i3=i; i3<=i2; i3++ {
 		rn = w[i]
 		switch rn {
 			case '.', ',', ';', ':', '!', '?', '&': // if any of these occur in the middle of a word then split into two words
