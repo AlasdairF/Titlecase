@@ -3,15 +3,17 @@
 
 TITLECASE
 
-* Supports multiple languages: English, French, German, Italian, Spanish & Generic
-* Written for speed - no regular expressions, minimal looping
-* Decodes all HTML entities
-* Supports roman numerals
-* Repairs grammatical errors
-* Fully UTF8 compliant
+This is a production-quality package made for cleaning and formatting book titles, but it can be used for titlecasing anything.
 
-This is a comprehensive titlecase formatter made by Forgotten Books for formatting book titles.
-No authority "standards" are adhered to because none of them cover all eventualities. Instead the rules were taken from first hand experience in the problem of titlecasing.
+* Supports multiple languages: English, French, German, Italian, Spanish, Portuguese & Generic
+* Supports contractions
+* Supports initials, titles and abbreviations
+* Supports Roman numerals, with exceptions for all words that look like roman numerals
+* Supports hypenatation and slashes
+* Repairs grammatical errors in English
+* Decodes all HTML entities
+* Fully UTF8 compliant
+* Written for speed and efficiency - no regular expressions, minimal looping
 
 */
 
@@ -129,14 +131,14 @@ func init() {
 	}
 	italianSmall.Build()
 	
-	// Initiate exceptions for Italian small words
+	// Initiate exceptions for Portuguese small words
 	portugueseSmall.Key = [][]rune {
 	 []rune("à"), []rune("às"), []rune("ao"), []rune("da"), []rune("das"), []rune("de"), []rune("do"), []rune("e"), []rune("em"), []rune("na"), []rune("no"), []rune("o"), []rune("para"), []rune("pelo"), []rune("pelos"),
-	 []rune("por"), []rune("se"), []rune("um"), []rune("uma"),
+	 []rune("por"), []rune("se"), []rune("um"), []rune("uma"), []rune("pelas"), []rune("pela"),
 	}
 	portugueseSmall.Build()
 	
-	// Initiate exceptions for Italian small words
+	// Initiate exceptions for Spanish small words
 	spanishSmall.Key = [][]rune {
 	 []rune("a"), []rune("al"), []rune("de"), []rune("del"), []rune("e"), []rune("é"), []rune("el"), []rune("en"), []rune("la"), []rune("las"), []rune("los"), []rune("o"), []rune("ó"), []rune("para"), []rune("por"),
 	 []rune("si"), []rune("un"), []rune("una"), []rune("y"),
