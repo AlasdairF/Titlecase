@@ -137,6 +137,7 @@ func (r *runebuf) add(words []wordStruct, spaceType uint8) []wordStruct {
 		}
 	}
 	// Reset buffer
+	r.len = 0
 	words = append(words, wordStruct{content, false, isEnd, spaceType, puncBefore, puncAfter})
 	return words
 }
@@ -240,6 +241,7 @@ func Format(str string, language uint8) string {
 	if word.len > 0 {
 		words = word.add(words, 4)
 	}
+	word = nil
 	
 	// Determine isStart from isEnd
 	l := len(words)
