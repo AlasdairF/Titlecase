@@ -85,8 +85,7 @@ func (r *runebuf) add(words []wordStruct, spaceType uint8) []wordStruct {
 	l := r.len
 	w := r.runes[0:l]
 	puncBefore := make([]rune, 0)
-	puncAfter := make([]rune, 0)
-	var i, i2, i3 int
+	var i, i2, i3, i4 int
 	// Get punctuation before word
 	for i=0; i<l; i++ {
 		if unicode.IsPunct(w[i]) {
@@ -97,17 +96,22 @@ func (r *runebuf) add(words []wordStruct, spaceType uint8) []wordStruct {
 	}
 	// Get punctuation after the word
 	for i2=l-1; i2>i; i2-- {
-		if unicode.IsPunct(w[i2]) {
-			puncAfter = append(puncAfter, w[i2])
-		} else {
+		if !unicode.IsPunct(w[i2]) {
 			break
 		}
 	}
+	i2++
+	puncAfter := make([]rune, 0, l - i2)
+	for i3=i2; i3<l; i3++ {
+		puncAfter[i4] = w[i3]
+		i4++
+	}
 	// Get word
 	var rn rune
+	i4 = 0
 	content := make([]rune, (i2-i)+1)
-	for i3=i; i3<=i2; i3++ {
-		rn = w[i]
+	for i3=i; i3<i2; i3++ {
+		rn = w[i3]
 		switch rn {
 			case '.', ',', ';', ':', '!', '?', '&': // if any of these occur in the middle of a word (surrounded by letters) then split into two words
 				r.runes = w[i:i3+1]
@@ -119,7 +123,8 @@ func (r *runebuf) add(words []wordStruct, spaceType uint8) []wordStruct {
 				r.len = 0
 				return words
 		}
-		content[i3] = unicode.ToLower(w[i3])
+		content[i4] = unicode.ToLower(w[i3])
+		i4++
 	}
 	// Determine if this is an ending, that means any punctuation except an aprostrophe
 	var isEnd bool
