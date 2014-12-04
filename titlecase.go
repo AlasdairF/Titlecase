@@ -37,12 +37,13 @@ const (
  Latin 		= 8
 )
 
-type honor struct {
+type honorStruct struct {
  binsearch.Key_runes
  format [][]rune
 }
 
 var romanExceptions, makecaps, englishSmall, frenchSmall, germanSmall, italianSmall, spanishSmall, dutchSmall, portugueseSmall, latinSmall binsearch.Key_runes
+var honor honorStruct
 
 func init() {
 
@@ -64,6 +65,7 @@ func init() {
 	makecaps.Build()
 	
 	// Initate exceptions for honor
+	honor = new(honorStruct)
 	honor.Key = [][]rune {
 	 []rune("m.d"), []rune("ph.d"),
 	}
