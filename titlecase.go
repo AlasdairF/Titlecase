@@ -65,7 +65,6 @@ func init() {
 	makecaps.Build()
 	
 	// Initate exceptions for honor
-	honor = new(honorStruct)
 	honor.Key = [][]rune {
 	 []rune("m.d"), []rune("ph.d"),
 	}
