@@ -149,13 +149,15 @@ func isRoman(r []rune) bool {
 	for _, rn := range r {
 		switch rn {
 			case 'i', 'v', 'x', 'm', 'c', 'd', 'l': continue
-			default: return false
+			default: return false; fmt.Println(`false`)
 		}
 	}
 	if _, ok := romanExceptions.Find(r); ok {
 		return false
+		fmt.Println(`nofind`)
 	} else {
 		return true
+		fmt.Println(`find`)
 	}
 }
 
@@ -269,11 +271,13 @@ func Format(str string, language uint8) string {
 		content = ws.content
 		ln = len(content)
 		
+		fmt.Println(`Testing`, string(content))
+		
 		// Uppercase roman numerals
 		if isRoman(content) {
-			fmt.Println(`ROMAN before`, content)
+			fmt.Println(`ROMAN before`, string(content))
 			upperRune(content, -1) // -1 means uppercase all
-			fmt.Println(`ROMAN after`, content)
+			fmt.Println(`ROMAN after`, string(content))
 			continue
 		}
 		
