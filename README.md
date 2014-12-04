@@ -1,6 +1,6 @@
 ##Titlecase
 
-This is a production-quality package made for cleaning and formatting book titles, but it can be used for titlecasing anything.
+This is a production-quality package made for cleaning and formatting book titles, but it can be used for titlecasing anything. It is far better than any of the other titlecasing packages available at the time of writing.
 
 ##Features
 
