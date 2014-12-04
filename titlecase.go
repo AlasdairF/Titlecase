@@ -163,7 +163,7 @@ func upperRune(r []rune, which int) {
 // Removes an individual byte from a slice of bytes
 func removeBytes(s []byte, a byte, b byte) []byte {
 	var on int
-	for i, v := range s {
+	for _, v := range s {
 		if v != a && v != b {
 			s[on] = v
 			on++
@@ -205,8 +205,6 @@ func Format(str string, language uint8) string {
 	// Load all into struct
 	var r rune
 	var i, w int
-	var isStart, isEnd bool
-	var spaceType uint8
 	words := make([]wordStruct, 0, 4)
 	word := newRuneBuf()
     for i=0; i<n; i+=w {
