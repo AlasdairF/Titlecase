@@ -23,6 +23,7 @@ import (
  "unicode"
  "unicode/utf8"
  "github.com/AlasdairF/BinSearch"
+ "fmt"
 )
 
 const (
@@ -236,12 +237,14 @@ func Format(str string, language uint8) string {
 			case '[', '{': r = '('
 			case ']', '}': r = ')'
 		}
+		fmt.Print(word.len, ` `)
 		word.write(r)
 	}
 	if word.len > 0 {
 		words = word.add(words, 4)
 	}
 	word = nil
+	fmt.Println()
 	
 	// Determine isStart from isEnd
 	l := len(words)
