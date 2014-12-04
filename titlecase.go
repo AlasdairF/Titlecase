@@ -225,10 +225,12 @@ func (r *runebuf) add(words []wordStruct, spaceType uint8) []wordStruct {
 			backup := r.runes
 			saver := make([]rune, len(content))
 			copy(saver, content)
-			r.runes = saver[0:noise[0]]
+			r.runes = puncBefore
+			r.runes = append(r.runes, saver[0:noise[0]+1]...)
 			r.len = len(r.runes)
 			words = r.add(words, 1)
 			r.runes = saver[noise[0]+1:]
+			r.runes = append(r.runes, puncAfter...)
 			r.len = len(r.runes)
 			words = r.add(words, 1)
 			r.len = 0
