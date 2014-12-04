@@ -157,7 +157,7 @@ func upperRune(r []rune, which int) {
 		}
 		return
 	}
-	r[which] = unicode.ToTitle(which)
+	r[which] = unicode.ToTitle(r[which])
 }
 
 // Removes an individual byte from a slice of bytes
@@ -189,7 +189,7 @@ func Format(str string, language uint8) string {
 	b = bytes.Replace(b, []byte("—"), []byte(" — "), -1) // Separate out em dashes
 	b = bytes.Replace(b, []byte(" - "), []byte(" — "), -1) // Correct hyphens to em dashes
 	b = bytes.Replace(b, []byte("[microform]"), []byte(""), -1)
-	b = bytes.Trim(b, []byte(" ;:.,"))
+	b = bytes.Trim(b, ` ;:.,`)
 	if b[0] == '(' {
 		b = removeBytes(b, '(', ')')
 	}
@@ -204,12 +204,12 @@ func Format(str string, language uint8) string {
 	
 	// Load all into struct
 	var r rune
-	var w int
+	var i, w int
 	var isStart, isEnd bool
 	var spaceType uint8
 	words := make([]wordStruct, 0, 4)
 	word := newRuneBuf()
-    for i:=0; i<n; i+=w {
+    for i=0; i<n; i+=w {
         r, w = utf8.DecodeRune(b[i:])
 		// Parse spacers
 		if r <= 32 { // space
