@@ -44,13 +44,16 @@ romanExceptions.Key = [][]rune {
  []rune("mimi"), []rune("mimic"), []rune("mix"), []rune("mv"), []rune("vi"), []rune("vic"), []rune("vici"), []rune("vid"), []rune("vild"), []rune("vill"), []rune("villi"), []rune("vim"),
  []rune("viv"), []rune("vivi"), []rune("vivid"), []rune("vivl"),
 }
-romanExceptions.Build()
 
 var englishSmall binsearch.Key_runes
 englishSmall.Key = [][]rune {
  []rune("a"), []rune("an"), []rune("and"), []rune("as"), []rune("at"), []rune("but"), []rune("by"), []rune("for"), []rune("if"), []rune("in"), []rune("of"), []rune("on"), []rune("or"), []rune("the"), []rune("to"),
 }
-englishSmall.Build()
+
+func init() {
+	romanExceptions.Build()
+	englishSmall.Build()
+}
 
 // Structs
 type wordStruct struct {
@@ -135,7 +138,7 @@ func isRoman(r []rune) bool {
 			default: return false
 		}
 	}
-	_, ok := romanExceptions.Find(r); ok {
+	if _, ok := romanExceptions.Find(r); ok {
 		return false
 	} else {
 		return true
