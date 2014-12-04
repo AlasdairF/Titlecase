@@ -300,7 +300,7 @@ func Format(str string, language uint8) string {
 		}
 		
 		// Check for small words to keep lowercase, using binary search
-		if _, ok = small.Find(); ok {
+		if _, ok = small.Find(content); ok {
 			// Exception if it's 1 letter with following punctuation or the next word is also 1 letter
 			if ln > 1 {
 				continue
