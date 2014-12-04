@@ -27,17 +27,18 @@ import (
 )
 
 const (
- Generic = 0
- English = 1
- French  = 2
- German  = 3
- Italian = 4
- Spanish = 5
+ Generic 	= 0
+ English 	= 1
+ French  	= 2
+ German  	= 3
+ Italian 	= 4
+ Spanish 	= 5
+ Portuguese = 6
+ Dutch 		= 7
+ Latin 		= 8
 )
 
-var romanExceptions binsearch.Key_runes
-var englishSmall binsearch.Key_runes
-
+var romanExceptions, englishSmall, frenchSmall, germanSmall, italianSmall, spanishSmall, dutchSmall, portugueseSmall, latinSmall binsearch.Key_runes
 func init() {
 
 	// Initate exceptions for Roman numerals
@@ -56,6 +57,41 @@ func init() {
 	 []rune("a"), []rune("an"), []rune("and"), []rune("as"), []rune("at"), []rune("but"), []rune("by"), []rune("for"), []rune("if"), []rune("in"), []rune("of"), []rune("on"), []rune("or"), []rune("the"), []rune("to"),
 	}
 	englishSmall.Build()
+	
+	// Initiate exceptions for French small words: d', l'
+	frenchSmall.Key = [][]rune {
+	 []rune("à"), []rune("au"), []rune("aux"), []rune("ce"), []rune("cette"), []rune("dans"), []rune("de"), []rune("des"), []rune("du"), []rune("en"), []rune("la"), []rune("le"), []rune("les"), []rune("ou"), []rune("par"),
+	 []rune("pour"), []rune("sur"), []rune("un"),[]rune("une"),
+	}
+	frenchSmall.Build()
+	
+	// Initiate exceptions for German small words
+	germanSmall.Key = [][]rune {
+	 []rune("als"), []rune("am"), []rune("an"), []rune("auf"), []rune("aus"), []rune("bei"), []rune("bis"), []rune("das"), []rune("dem"), []rune("den"), []rune("der"), []rune("des"), []rune("die"), []rune("ein"), []rune("eine"),
+	 []rune("für"), []rune("im"), []rune("in"), []rune("ins"), []rune("mit"), []rune("nach"), []rune("oder"), []rune("og"), []rune("und"), []rune("van"), []rune("vom"), []rune("von"), []rune("wie"), []rune("zu"), []rune("zum"), []rune("zur"),
+	}
+	germanSmall.Build()
+	
+	// Initiate exceptions for Italian small words
+	italianSmall.Key = [][]rune {
+	 []rune("a"), []rune("al"), []rune("con"), []rune("da"), []rune("dai"), []rune("dal"), []rune("dei"), []rune("del"), []rune("della"), []rune("di"), []rune("e"), []rune("ed"), []rune("i"), []rune("il"), []rune("in"),
+	 []rune("la"), []rune("le"), []rune("lo"), []rune("nella"), []rune("o"), []rune("per"), []rune("se"), []rune("su"), []rune("un"), []rune("una"), []rune("uno"),
+	}
+	italianSmall.Build()
+	
+	// Initiate exceptions for Italian small words
+	portugueseSmall.Key = [][]rune {
+	 []rune("à"), []rune("às"), []rune("ao"), []rune("da"), []rune("das"), []rune("de"), []rune("do"), []rune("e"), []rune("em"), []rune("na"), []rune("no"), []rune("o"), []rune("para"), []rune("pelo"), []rune("pelos"),
+	 []rune("por"), []rune("se"), []rune("um"), []rune("uma"),
+	}
+	portugueseSmall.Build()
+	
+	// Initiate exceptions for Italian small words
+	spanishSmall.Key = [][]rune {
+	 []rune("a"), []rune("al"), []rune("de"), []rune("del"), []rune("e"), []rune("é"), []rune("el"), []rune("en"), []rune("la"), []rune("las"), []rune("los"), []rune("o"), []rune("ó"), []rune("para"), []rune("por"),
+	 []rune("si"), []rune("un"), []rune("una"), []rune("y"),
+	}
+	spanishSmall.Build()
 	
 }
 
@@ -110,7 +146,7 @@ func (r *runebuf) add(words []wordStruct, spaceType uint8) []wordStruct {
 	// Get word
 	var rn rune
 	i4 = 0
-	content := make([]rune, (i2-i)+1)
+	content := make([]rune, i2 - i)
 	for i3=i; i3<i2; i3++ {
 		rn = w[i3]
 		switch rn {
@@ -193,10 +229,11 @@ func Format(str string, language uint8) string {
 	var small binsearch.Key_runes
 	switch language {
 		case English: small = englishSmall
-		//case French: small = frenchSmall
-		//case German: small = germanSmall
-		//case Italian: small = italianSmall
-		//case Spanish: small = spanishSmall
+		case French: small = frenchSmall
+		case German: small = germanSmall
+		case Italian: small = italianSmall
+		case Spanish: small = spanishSmall
+		case Portuguese: small = portugueseSmall
 	}
 	
 	// Preprocessing
