@@ -2,6 +2,8 @@
 
 This is a production-quality package made for cleaning and formatting book titles, but it can be used for titlecasing anything. It is far better than any of the other titlecasing packages available at the time of writing.
 
+Please note that some assumptions are made by this package that would make it unsuitable for certain purposes. Specifically the package is made for book titles from the pre-Internet era and so it does not, in its current state, support domain names. For example: `look at this cool thing i found on google.com` would be changed to `Look at This Cool Thing I Found on Google. Com`. I can add support for domain names on request.
+
 ##Features
 
 * Supports multiple languages: English, French, German, Italian, Spanish, Portuguese & Generic
