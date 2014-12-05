@@ -1,16 +1,18 @@
 ##Titlecase
 
-This is a production-quality package made for cleaning and formatting book titles, but it can be used for titlecasing anything. It is far better than any of the other titlecasing packages available at the time of writing.
+This is a production-quality package made for cleaning and formatting book titles, but it can be used for titlecasing anything. It is far better than any of the other titlecasing packages available at the time of writings.
 
-Please note that some assumptions are made by this package that would make it unsuitable for certain purposes. Specifically the package is made for book titles from the pre-Internet era and so it does not, in its current state, support domain names. For example: `look at this cool thing i found on google.com` would be changed to `Look at This Cool Thing I Found on Google. Com`. I can add support for domain names on request.
+This package is made for book titles from the pre-Internet era and so it does not, in its current state, support domain names. For example: `look at this cool thing i found on google.com` would be changed to `Look at This Cool Thing I Found on Google. Com`. I can add support for domain names on request, but I have no use for it which is why I didn't add it already, and I have no idea if anyone ever uses any of these packages I write.
 
 ##Features
 
 * Supports multiple languages: English, French, German, Italian, Spanish, Portuguese & Generic
 * Supports contractions
-* Supports initials, titles and abbreviations
+* Supports initials
+* Supports academic titles
+* Supports common abbreviations (USA, USSR, YMCA, etc.)
 * Supports Roman numerals, with exceptions for real words that look like roman numerals
-* Supports hypenatation and slashes
+* Supports hyphenation and slashes
 * Repairs grammatical errors in English
 * Decodes all HTML entities
 * Fully UTF8 compliant
