@@ -35,6 +35,15 @@ This Is a Title by A. Forsythe, Made to Demonstrate an Example; Written on 5th D
 
 ##Example 2
 
+a very many exceptions exist. e.g. ussr IS FIXED. some guy with a ph.d knows what's going on. people forget rules like: on an in.
+
+    unformatted := `a very many exceptions exist. e.g. ussr IS FIXED. some guy with a ph.d knows what's going on. people forget rules like: on on on.`
+    formatted := titlecase.Format(unformatted, titlecase.English)
+    
+A Very Many Exceptions Exist; E.g. USSR Is Fixed; Some Guy With a Ph.D Knows What's Going On; People Forget Rules Like: On an In
+
+##Example 3
+
 della corte d'appello di roma nell'anno mdccclxxxi
 
     unformatted = `   della corte d'appello di roma nell'anno mdccclxxxi `
