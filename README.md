@@ -9,11 +9,13 @@ This package is made for book titles from the pre-Internet era and so it does no
 * Supports multiple languages: English, French, German, Italian, Spanish, Portuguese & Generic
 * Supports contractions
 * Supports initials
-* Supports academic titles
+* Supports academic honors (M.D., Ph.D, etc.)
 * Supports common abbreviations (USA, USSR, YMCA, etc.)
-* Supports Roman numerals, with exceptions for real words that look like roman numerals
+* Supports Roman numerals, without mistaking words for roman numerals
 * Supports hyphenation and slashes
 * Repairs grammatical errors in English
+* Redetermines whitespace
+* Converts or strips inappropriate punctuation
 * Decodes all HTML entities
 * Fully UTF8 compliant
 * Written for speed and efficiency - no regular expressions, minimal looping
