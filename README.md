@@ -28,8 +28,7 @@ This package is made for book titles from the pre-Internet era and so it does no
 
 this is a title by a. forsythe, made to demonstrate a example. WRITTEN ON 5TH DECEMBER, 2014.
 
-    unformatted := ` this is a title by a. forsythe, made to demonstrate a example. WRITTEN ON 5TH DECEMBER, 2014.`
-    formatted := titlecase.English(unformatted)
+    formatted := titlecase.English(` this is a title by a. forsythe, made to demonstrate a example. WRITTEN ON 5TH DECEMBER, 2014.`)
     
 This Is a Title by A. Forsythe, Made to Demonstrate an Example; Written on 5th December, 2014
 
@@ -37,8 +36,7 @@ This Is a Title by A. Forsythe, Made to Demonstrate an Example; Written on 5th D
 
 a very many exceptions exist. e.g. ussr IS FIXED. some guy with a ph.d knows what's going on. people forget rules like: on an in.
 
-    unformatted := `a very many exceptions exist. e.g. ussr IS FIXED. some guy with a ph.d knows what's going on. people forget rules like: on on on.`
-    formatted := titlecase.English(unformatted)
+    formatted := titlecase.English(`a very many exceptions exist. e.g. ussr IS FIXED. some guy with a ph.d knows what's going on. people forget rules like: on on on.`)
     
 A Very Many Exceptions Exist; E.g. USSR Is Fixed; Some Guy With a Ph.D Knows What's Going On; People Forget Rules Like: On an In
 
@@ -46,7 +44,6 @@ A Very Many Exceptions Exist; E.g. USSR Is Fixed; Some Guy With a Ph.D Knows Wha
 
 della corte d'appello di roma nell'anno mdccclxxxi
 
-    unformatted = `   della corte d'appello di roma nell'anno mdccclxxxi `
-    formatted = titlecase.Italian(unformatted)
+    formatted := titlecase.Italian(`   della corte d'appello di roma nell'anno mdccclxxxi `)
 
 Della Corte d'Appello di Roma nell'Anno MDCCCLXXXI
