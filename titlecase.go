@@ -32,15 +32,13 @@ import (
 )
 
 const (
- Generic 	= 0
- English 	= 1
- French  	= 2
- German  	= 3
- Italian 	= 4
- Spanish 	= 5
- Portuguese = 6
- Dutch 		= 7
- Latin 		= 8
+ generic 	= 0
+ english 	= 1
+ french  	= 2
+ german  	= 3
+ italian 	= 4
+ spanish 	= 5
+ portuguese	= 6
 )
 
 type honorStruct struct {
@@ -48,7 +46,7 @@ type honorStruct struct {
  format [][]rune
 }
 
-var romanExceptions, makecaps, englishSmall, frenchSmall, germanSmall, italianSmall, spanishSmall, dutchSmall, portugueseSmall, latinSmall binsearch.Key_runes
+var romanExceptions, makecaps, englishSmall, frenchSmall, germanSmall, italianSmall, spanishSmall, portugueseSmall binsearch.Key_runes
 var honor honorStruct
 
 func init() {
@@ -359,16 +357,44 @@ func replaceRune(s []rune, from rune, to rune) {
 	}
 }
 
-func Format(str string, language uint8) string {
+func English(str string) string {
+	return format(str, english)
+}
+
+func French(str string) string {
+	return format(str, french)
+}
+
+func German(str string) string {
+	return format(str, german)
+}
+
+func Italian(str string) string {
+	return format(str, italian)
+}
+
+func Spanish(str string) string {
+	return format(str, spanish)
+}
+
+func Portuguese(str string) string {
+	return format(str, portuguese)
+}
+
+func Generic(str string) string {
+	return format(str, generic)
+}
+
+func format(str string, language uint8) string {
 
 	var small binsearch.Key_runes
 	switch language {
-		case English: small = englishSmall
-		case French: small = frenchSmall
-		case German: small = germanSmall
-		case Italian: small = italianSmall
-		case Spanish: small = spanishSmall
-		case Portuguese: small = portugueseSmall
+		case english: small = englishSmall
+		case french: small = frenchSmall
+		case german: small = germanSmall
+		case italian: small = italianSmall
+		case spanish: small = spanishSmall
+		case portuguese: small = portugueseSmall
 	}
 	
 	// Preprocessing
@@ -469,7 +495,7 @@ func Format(str string, language uint8) string {
 			}
 		}
 		
-		if language == English {
+		if language == english {
 			// Special for English: repair grammatical error on a -> an
 			if ln == 1 {
 				if content[0] == 'a' {
@@ -486,7 +512,7 @@ func Format(str string, language uint8) string {
 			}
 		} else {
 			// Check for contractions
-			if ws.contraction > 0 && language != German {
+			if ws.contraction > 0 && language != german {
 				if isContraction(content[0:ws.contraction]) {
 					if ws.isStart {
 						upperRune(content, 0)
