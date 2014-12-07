@@ -4,6 +4,8 @@ This is a production-quality package made for cleaning and formatting book title
 
 This package is made for book titles from the pre-Internet era and so it does not, in its current state, support domain names. For example: `look at this cool thing i found on google.com` would be changed to `Look at This Cool Thing I Found on Google. Com`. I can add support for domain names on request, but I have no use for it which is why I didn't add it already, and I have no idea if anyone ever uses any of these packages I write.
 
+This package is aggressive in that all formatting and casing are removed and entirely redetermined following the rules. Nothing is assumed; the case of the original title is irrelevant to the result.
+
 ##Features
 
 * Supports multiple languages: English, French, German, Italian, Spanish, Portuguese & Generic
