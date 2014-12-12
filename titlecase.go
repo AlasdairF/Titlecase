@@ -387,6 +387,9 @@ func Generic(str string) string {
 
 func format(str string, language uint8) string {
 
+	if len(str) == 0 {
+		return ``
+	}
 	var small binsearch.Key_runes
 	switch language {
 		case english: small = englishSmall
