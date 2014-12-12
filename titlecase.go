@@ -70,9 +70,8 @@ func init() {
 	
 	// Initate exceptions for titles
 	titles.Key = [][]rune {
-	 []rune("mr"), []rune("ms"), []rune("miss"), []rune("mrs"), []rune("dr"), []rune("prof"), []rune("rev"), []rune("esq"), []rune("hon"), []rune("jr"),
-	 []rune("messrs"), []rune("mmes"), []rune("msgr"), []rune("rt"), []rune("sr"), []rune("st"), []rune("lt"), []rune("col"), []rune("gen"),
-	 []rune("jr"), []rune("maj"), []rune("brig"), []rune("capt"), []rune("sgt"), []rune("cpl"), []rune("pvt"), []rune("pfc"), []rune("cmdr"),
+	 []rune("mr"), []rune("ms"), []rune("miss"), []rune("mrs"), []rune("dr"), []rune("prof"), []rune("rev"), []rune("esq"), []rune("hon"), []rune("jr"), []rune("messrs"), []rune("mmes"), []rune("msgr"), []rune("rt"),
+	 []rune("sr"), []rune("st"), []rune("lt"), []rune("col"), []rune("gen"), []rune("jr"), []rune("maj"), []rune("brig"), []rune("capt"), []rune("sgt"), []rune("cpl"), []rune("pvt"), []rune("pfc"), []rune("cmdr"),
 	 []rune("adm"), []rune("lieut"), []rune("pte"),
 	}
 	titles.Build()
