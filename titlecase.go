@@ -489,6 +489,10 @@ func format(str string, language uint8) string {
 		content = ws.content
 		ln = len(content)
 		
+		if ln == 0 {
+			continue
+		}
+		
 		if ws.isHonor {
 			continue
 		}
@@ -588,6 +592,9 @@ func format(str string, language uint8) string {
 	var buf bytes.Buffer
 	for i=0; i<l; i++ {
 		ws = &words[i]
+		if len(ws.content) == 0 {
+			continue
+		}
 		for _, r = range ws.puncBefore {
 			buf.WriteRune(r)
 		}
