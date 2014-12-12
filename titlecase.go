@@ -416,6 +416,9 @@ func format(str string, language uint8) string {
 	b = bytes.Replace(b, []byte(" - "), []byte(" — "), -1) // Correct hyphens to em dashes
 	b = bytes.Replace(b, []byte("[microform]"), []byte(""), -1)
 	b = bytes.Trim(b, ` ;:.,`)
+	if len(b) == 0 {
+		return ``
+	}
 	if b[0] == '(' {
 		b = removeBytes(b, '(', ')')
 	}
