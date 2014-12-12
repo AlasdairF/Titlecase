@@ -11,6 +11,7 @@ This package is aggressive in that all formatting and casing are removed and ent
 * Supports multiple languages: English, French, German, Italian, Spanish, Portuguese & Generic
 * Supports contractions
 * Supports initials
+* Supports titles (Mrs., Dr., Sgt., Rev., etc.)
 * Supports academic honors (M.D., Ph.D, etc.)
 * Supports common abbreviations (USA, USSR, YMCA, etc.)
 * Supports Roman numerals, without mistaking words for roman numerals
