@@ -502,13 +502,15 @@ func format(str string, language uint8) string {
 			// Special for English: repair grammatical error on a -> an
 			if ln == 1 {
 				if content[0] == 'a' {
-					tmp := words[i+1].content
-					if len(tmp) > 1 {
-						switch tmp[0] {
-							case 'a', 'e', 'i', 'o', 'u':
-								ws.content = []rune("an")
-								content = ws.content
-								ln = 2
+					if i < len(words) - 1 {
+						tmp := words[i+1].content
+						if len(tmp) > 1 {
+							switch tmp[0] {
+								case 'a', 'e', 'i', 'o', 'u':
+									ws.content = []rune("an")
+									content = ws.content
+									ln = 2
+							}
 						}
 					}
 				}
