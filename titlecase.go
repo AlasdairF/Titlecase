@@ -46,7 +46,7 @@ type honorStruct struct {
  format [][]rune
 }
 
-var romanExceptions, makecaps, englishSmall, frenchSmall, germanSmall, italianSmall, spanishSmall, portugueseSmall binsearch.Key_runes
+var romanExceptions, makecaps, englishSmall, frenchSmall, germanSmall, italianSmall, spanishSmall, portugueseSmall, titles binsearch.Key_runes
 var honor honorStruct
 
 func init() {
@@ -68,6 +68,15 @@ func init() {
 	}
 	makecaps.Build()
 	
+	// Initate exceptions for titles
+	titles.Key = [][]rune {
+	 []rune("mr"), []rune("ms"), []rune("miss"), []rune("mrs"), []rune("dr"), []rune("prof"), []rune("rev"), []rune("esq"), []rune("hon"), []rune("jr"),
+	 []rune("messrs"), []rune("mmes"), []rune("msgr"), []rune("rt"), []rune("sr"), []rune("st"), []rune("lt"), []rune("col"), []rune("gen"),
+	 []rune("jr"), []rune("maj"), []rune("brig"), []rune("capt"), []rune("sgt"), []rune("cpl"), []rune("pvt"), []rune("pfc"), []rune("cmdr"),
+	 []rune("adm"), []rune("lieut"), []rune("pte"),
+	}
+	titles.Build()
+	
 	// Initate exceptions for honor
 	honor.Key = [][]rune {
 	 []rune("a.a"), []rune("a.a.s"), []rune("a.a.t"), []rune("a.o.t"), []rune("a.s"), []rune("b.a"), []rune("b.a.b.a"), []rune("b.a.com"), []rune("b.a.e"), []rune("b.a.ed"), []rune("b.arch"), []rune("b.a.s"), []rune("b.b.a"), 
@@ -82,7 +91,7 @@ func init() {
 	 []rune("m.s.e.s.m"), []rune("m.s.f.s"), []rune("m.s.h.a"), []rune("m.s.h.e.s"), []rune("m.s.h.i"), []rune("m.s.i.e"), []rune("m.s.i.l.a"), []rune("m.s.i.s"), []rune("m.s.j.p.s"), []rune("m.s.m.e"), []rune("m.s.met"),
 	 []rune("m.s.m.sci"), []rune("m.s.mt.e"), []rune("m.s.n"), []rune("m.s.o.r"), []rune("m.s.o.t"), []rune("m.s.p.a.s"), []rune("m.s.p.h"), []rune("m.s.s.e"), []rune("m.s.w"), []rune("m.sw.e"), []rune("m.t.a"), []rune("m.tx"),
 	 []rune("m.u.r.p"), []rune("ed.s"), []rune("au.d"), []rune("d.b.a"), []rune("d.m.a"), []rune("d.m.d"), []rune("d.n.p"), []rune("d.p.t"), []rune("dr.p.h"), []rune("d.sc"), []rune("d.v.m"), []rune("ed.d"), []rune("j.d"),
-	 []rune("m.d"), []rune("o.d"), []rune("pharm.d"), []rune("ph.d"), []rune("e.g"),  []rune("I.e"),
+	 []rune("m.d"), []rune("o.d"), []rune("pharm.d"), []rune("ph.d"), []rune("e.g"), []rune("i.e"), []rune("lt.col"),
 	}
 	honor.format = [][]rune {
 	 []rune("A.A"), []rune("A.A.S"), []rune("A.A.T"), []rune("A.O.T"), []rune("A.S"), []rune("B.A"), []rune("B.A.B.A"), []rune("B.A.Com"), []rune("B.A.E"), []rune("B.A.Ed"), []rune("B.Arch"), []rune("B.A.S"), []rune("B.B.A"), 
@@ -97,7 +106,8 @@ func init() {
 	 []rune("M.S.E.S.M"), []rune("M.S.F.S"), []rune("M.S.H.A"), []rune("M.S.H.E.S"), []rune("M.S.H.I"), []rune("M.S.I.E"), []rune("M.S.I.L.A"), []rune("M.S.I.S"), []rune("M.S.J.P.S"), []rune("M.S.M.E"), []rune("M.S.Met"),
 	 []rune("M.S.M.Sci"), []rune("M.S.Mt.E"), []rune("M.S.N"), []rune("M.S.O.R"), []rune("M.S.O.T"), []rune("M.S.P.A.S"), []rune("M.S.P.H"), []rune("M.S.S.E"), []rune("M.S.W"), []rune("M.Sw.E"), []rune("M.T.A"), []rune("M.Tx"),
 	 []rune("M.U.R.P"), []rune("Ed.S"), []rune("Au.D"), []rune("D.B.A"), []rune("D.M.A"), []rune("D.M.D"), []rune("D.N.P"), []rune("D.P.T"), []rune("Dr.P.H"), []rune("D.Sc"), []rune("D.V.M"), []rune("Ed.D"), []rune("J.D"),
-	 []rune("M.D"), []rune("O.D"), []rune("Pharm.D"), []rune("Ph.D"), []rune("E.g"), []rune("I.e"),
+	 []rune("M.D"), []rune("O.D"), []rune("Pharm.D"), []rune("Ph.D"), []rune("E.g"), []rune("I.e"), []rune("Lt.Col"),
+	 []rune("Gen."),
 	}
 	temp := make([][]rune, len(honor.format))
 	newindexes := honor.Build()
@@ -485,6 +495,18 @@ func format(str string, language uint8) string {
 		// Uppercase roman numerals
 		if isRoman(content) {
 			upperRune(content, -1) // -1 means uppercase all
+			continue
+		}
+		
+		// Titles
+		if _, ok = titles.Find(content); ok {
+			upperRune(content, 0)
+			// Ensure title is followed by a period
+			if len(ws.puncAfter) == 0 {
+				ws.puncAfter = []rune(".")
+			} else {
+				ws.puncAfter[0] = '.'
+			}
 			continue
 		}
 		
