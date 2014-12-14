@@ -474,7 +474,9 @@ func format(str string, language uint8) string {
 	words[0].isStart = true
 	for i=1; i<l; i++ {
 		if words[i-1].isEnd {
-			words[i].isStart = true
+			if words[i-1].puncAfter[0] != ',' {
+				words[i].isStart = true
+			}
 		}
 	}
 	words[l-1].isEnd = true
