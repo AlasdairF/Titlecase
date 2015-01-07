@@ -3,7 +3,7 @@
 
 TITLECASE
 
-This is a production-quality package made for cleaning and formatting book titles, but it can be used for titlecasing anything.
+This is a production-quality package made for cleaning and formatting book titlesabv, but it can be used for titlecasing anything.
 
 * Supports multiple languages: English, French, German, Italian, Spanish, Portuguese & Generic
 * Supports contractions
@@ -39,6 +39,7 @@ const (
  italian 	= 4
  spanish 	= 5
  portuguese	= 6
+ author		= 7
 )
 
 type honorStruct struct {
@@ -46,7 +47,7 @@ type honorStruct struct {
  format [][]rune
 }
 
-var romanExceptions, makecaps, englishSmall, frenchSmall, germanSmall, italianSmall, spanishSmall, portugueseSmall, titles binsearch.Key_runes
+var romanExceptions, makecaps, englishSmall, frenchSmall, germanSmall, italianSmall, spanishSmall, portugueseSmall, titlesabv, titles, multilast binsearch.Key_runes
 var honor honorStruct
 
 func init() {
@@ -68,13 +69,34 @@ func init() {
 	}
 	makecaps.Build()
 	
-	// Initate exceptions for titles
-	titles.Key = [][]rune {
+	// Initate exceptions for titlesabv
+	titlesabv.Key = [][]rune {
 	 []rune("mr"), []rune("ms"), []rune("miss"), []rune("mrs"), []rune("dr"), []rune("prof"), []rune("rev"), []rune("esq"), []rune("hon"), []rune("jr"), []rune("messrs"), []rune("mmes"), []rune("msgr"), []rune("rt"),
-	 []rune("sr"), []rune("st"), []rune("lt"), []rune("col"), []rune("gen"), []rune("jr"), []rune("maj"), []rune("brig"), []rune("capt"), []rune("sgt"), []rune("cpl"), []rune("pvt"), []rune("pfc"), []rune("cmdr"),
+	 []rune("sr"), []rune("st"), []rune("lt"), []rune("col"), []rune("gen"), []rune("pseud"), []rune("maj"), []rune("brig"), []rune("capt"), []rune("sgt"), []rune("cpl"), []rune("pvt"), []rune("pfc"), []rune("cmdr"),
 	 []rune("adm"), []rune("lieut"), []rune("pte"),
 	}
+	titlesabv.Build()
+	
+	// Initate exceptions for titles
+	titles.Key = [][]rune {
+	 []rune("Sir"), []rune("Lord"), []rune("Baron"), []rune("Count") []rune("Viscount"), []rune("Duke"), []rune("Marquess"), []rune("Earl"), []rune("Laird"), []rune("Master"), []rune("Bishop"), []rune("Father"), []rune("Sister"),
+	 []rune("Pope"), []rune("Rabbi"), []rune("General"), []rune("Major"), []rune("Private"), []rune("Captain"), []rune("Sergent"), []rune("Commander"), []rune("Admiral"), []rune("Lieutenant"), []rune("Marquise"), []rune("Duca"), []rune("Arciduca"),
+	 []rune("Abbot"), []rune("Reverend"), []rune("Deacon"), []rune("Archbishop"), []rune("Cardinal"), []rune("Chancellor"), []rune("Chaplain"), []rune("Vicar"), []rune("Doctor"), []rune("Guru"), []rune("principe"), []rune("marchese"),
+	 []rune("Prince"), []rune("King"), []rune("Queen"), []rune("Princess"), []rune("Emperor"), []rune("Caesar"), []rune("tsar"), []rune("Czar"), []rune("Csar"), []rune("Tzar"), []rune("Kaiser"), []rune("Sultan"), []rune("Conte"),
+	 []rune("Dauphin"), []rune("Infante"), []rune("Margrave"), []rune("Marquis"), []rune("Freiherr"), []rune("Seigneur"), []rune("Nobile"), []rune("Baronet"), []rune("Dominus"), []rune("Vidame"), []rune("Vavasour"), []rune("Contessa"),
+	 []rune("Vidame"), []rune("Kurfürst"), []rune("Prinz"), []rune("Viceroy"), []rune("Markgraf"), []rune("Graf"), []rune("Vizegraf"), []rune("Compte"), []rune("Comptesse"), []rune("Báró"), []rune("Barón"), []rune("Barone"),
+	 []rune("Chevalier"), []rune("Ritter"), []rune("Cavaliere"), []rune("Nobiluomo"), []rune("Duque"), []rune("Príncipe"), []rune("Marquês"), []rune("Conde"), []rune("Visconde"), []rune("Barão"), []rune("Baronete"), []rune("Professor"),
+	 []rune("Duchess"), []rune("Countess"), []rune("Baroness"), []rune("Dame"), []rune("Duc"), []rune("Viceroi"), []rune("Fürst"), []rune("Baronetto"), []rune("Principessa"), []rune("Visconte"), []rune("Princesse"), []rune("Roi"),
+	 []rune("Reine"), []rune("Kaiserin"), []rune("König"), []rune("Königin"), []rune("Re"), []rune("Regina"), []rune("Rei"), []rune("Rainha"), []rune("Pape"), []rune("Papa"), []rune("Papst"), []rune("Monsieur"), []rune("Madame"),
+	 []rune("Herr"), []rune("Père"), []rune("Padre"), []rune("Vater"), []rune("Saint"), []rune("Heilige"), []rune("San"),
+	}
 	titles.Build()
+	
+	// Initate exceptions for mutli-part last names
+	multilast.Key = [][]rune {
+	 []rune("de"), []rune("da"), []rune("di"), []rune("von"), []rune("van"), []rune("le"), []rune("la"), []rune("du"), []rune("des"), []rune("del"), []rune("della"), []rune("der"),
+	}
+	multilast.Build()
 	
 	// Initate exceptions for honor
 	honor.Key = [][]rune {
@@ -157,16 +179,38 @@ func init() {
 	
 }
 
+func equal(a, b []rune) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	for i, c := range a {
+		if c != b[i] {
+			return false
+		}
+	}
+	return true
+}
+
 // Structs
 type wordStruct struct {
  content []rune
  isStart bool
  isEnd bool
  isHonor bool
+ isTitle bool
+ isRoman bool
  contraction uint8
  spaceAfter uint8 // 0=nothing, 1=space, 2=hypen, 3=slash, 4=end
  puncBefore []rune
  puncAfter []rune
+}
+
+type AuthorStruct struct {
+ Last string
+ First string
+ Middle string
+ Title string
+ Suffix string
 }
 
 type runebuf struct {
@@ -366,37 +410,48 @@ func replaceRune(s []rune, from rune, to rune) {
 }
 
 func English(str string) string {
-	return format(str, english)
+	str, _ := format(str, english, false)
+	return str
 }
 
 func French(str string) string {
-	return format(str, french)
+	str, _ := format(str, french, false)
+	return str
 }
 
 func German(str string) string {
-	return format(str, german)
+	str, _ := format(str, german, false)
+	return str
 }
 
 func Italian(str string) string {
-	return format(str, italian)
+	str, _ := format(str, italian, false)
+	return str
 }
 
 func Spanish(str string) string {
-	return format(str, spanish)
+	str, _ := format(str, spanish, false)
+	return str
 }
 
 func Portuguese(str string) string {
-	return format(str, portuguese)
+	str, _ := format(str, portuguese, false)
+	return str
 }
 
 func Generic(str string) string {
-	return format(str, generic)
+	str, _ := format(str, generic, false)
+	return str
 }
 
-func format(str string, language uint8) string {
+func Author(str string, language uint8) (string, *AuthorStruct) {
+	return format(str, language, true)
+}
+
+func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruct) {
 
 	if len(str) == 0 {
-		return ``
+		return ``, nil
 	}
 	var small binsearch.Key_runes
 	switch language {
@@ -417,7 +472,7 @@ func format(str string, language uint8) string {
 	b = bytes.Replace(b, []byte("[microform]"), []byte(""), -1)
 	b = bytes.Trim(b, ` ;:.,`)
 	if len(b) == 0 {
-		return ``
+		return ``, nil
 	}
 	if b[0] == '(' {
 		b = removeBytes(b, '(', ')')
@@ -428,7 +483,7 @@ func format(str string, language uint8) string {
 
 	n := len(b)
 	if n == 0 {
-		return ``
+		return ``, nil
 	}
 	
 	// Load all into struct
@@ -469,7 +524,7 @@ func format(str string, language uint8) string {
 	// Determine isStart from isEnd
 	l := len(words)
 	if l == 0 {
-		return ``
+		return ``, nil
 	}
 	words[0].isStart = true
 	for i=1; i<l; i++ {
@@ -480,6 +535,13 @@ func format(str string, language uint8) string {
 		}
 	}
 	words[l-1].isEnd = true
+	
+	// On authors, delete the first word if it is "by" or "the"
+	if formatAuthor {
+		if equal(words[0].content, []rune("by")) || equal(words[0].content, []rune("the")) {
+			words[0].content = make([]rune, 0)
+		}
+	}
 	
 	// Loop through all and apply rules
 	var ws *wordStruct
@@ -501,13 +563,15 @@ func format(str string, language uint8) string {
 		
 		// Uppercase roman numerals
 		if isRoman(content) {
+			ws.isRoman = true
 			upperRune(content, -1) // -1 means uppercase all
 			continue
 		}
 		
 		// Titles
-		if _, ok = titles.Find(content); ok {
+		if _, ok = titlesabv.Find(content); ok {
 			upperRune(content, 0)
+			ws.isTitle = true
 			// Ensure title is followed by a period
 			if len(ws.puncAfter) == 0 {
 				ws.puncAfter = []rune(".")
@@ -613,6 +677,260 @@ func format(str string, language uint8) string {
 		}
 	}
 	
-	return buf.String()
+	// If it's only a title (not author) then end here
+	if !formatAuthor {
+		return buf.String(), nil
+	}
+		
+	author := new(AuthorStruct)
+	
+	// Find author's title
+	var going bool
+	for i=0; i<l; i++ {
+		ws = &words[i]
+		content = ws.content
+		ln = len(content)
+		if ln == 0 {
+			continue
+		}
+		going = false
+		
+		if ws.isTitle {
+			if len(author.Title) == 0 {
+				author.Title = string(content) + `.`
+			} else {
+				switch words[i-1].spaceAfter {
+					case 1: author.Title += ` ` + string(content) + `.`
+					case 2: author.Title += `-` + string(content) + `.`
+					case 3: author.Title += `/` + string(content) + `.`
+				}
+			}
+			ws.content = content[0:0]
+			going = true
+		} else {
+			if _, ok = titles.Find(content); ok {
+				if len(author.Title) == 0 {
+					author.Title = string(content)
+				} else {
+					switch words[i-1].spaceAfter {
+						case 1: author.Title += ` ` + string(content)
+						case 2: author.Title += `-` + string(content)
+						case 3: author.Title += `/` + string(content)
+					}
+				}
+				ws.content = content[0:0]
+				going = true
+			}
+		}
+		
+		if !going {
+			break
+		}
+	}
+	
+	// Find author's suffix & check for comma in puncAfter
+	var comma int
+	for i=0 i<l; i++ {
+		ws = &words[i]
+		content = ws.content
+		ln = len(content)
+		if ln == 0 {
+			continue
+		}
+		
+		if ws.isHonor {
+			if len(author.Suffix) == 0 {
+				author.Suffix = string(content) + `.`
+			} else {
+				if going {
+					switch words[i-1].spaceAfter {
+						case 1: author.Suffix += ` ` + string(content) + `.`
+						case 2: author.Suffix += `-` + string(content) + `.`
+						case 3: author.Suffix += `/` + string(content) + `.`
+					}
+				} else {
+					author.Suffix += ` ` + string(content) + `.`
+				}
+			}
+			ws.content = content[0:0]
+			going = true
+		} else {
+			if comma == 0 && ws.spaceAfter == 1 {
+				for _, r = range ws.puncAfter {
+					if r == ',' {
+						comma = i + 1
+					}
+				}
+			}
+			going = false
+		}
+	}
+	
+	// Rebuild what's left
+	var first bytes.Buffer
+	var middle bytes.Buffer
+	var last bytes.Buffer
+	
+	// Get first and last name if there is a comma
+	if comma > 0 {
+		for i=0; i<comma; i++ {
+			ws = &words[i]
+			if len(ws.content) == 0 {
+				continue
+			}
+			for _, r = range ws.puncBefore {
+				last.WriteRune(r)
+			}
+			for _, r = range ws.content {
+				last.WriteRune(r)
+			}
+			for _, r = range ws.puncAfter {
+				if r != ',' {
+					last.WriteRune(r)
+				}
+			}
+			if i < comma - 1 {
+				switch ws.spaceAfter {
+					case 1: last.WriteByte(' ')
+					case 2: last.WriteByte('-')
+					case 3: last.WriteByte('/')
+				}
+			}
+		}
+		for ; i<l; i++ {
+			ws = &words[i]
+			if len(ws.content) == 0 {
+				continue
+			}
+			for _, r = range ws.puncBefore {
+				first.WriteRune(r)
+			}
+			for _, r = range ws.content {
+				first.WriteRune(r)
+			}
+			for _, r = range ws.puncAfter {
+				first.WriteRune(r)
+			}
+			switch ws.spaceAfter {
+				case 1: i++; break
+				case 2: first.WriteByte('-')
+				case 3: first.WriteByte('/')
+			}
+		}
+		for ; i<l; i++ {
+			ws = &words[i]
+			if len(ws.content) == 0 {
+				continue
+			}
+			for _, r = range ws.puncBefore {
+				middle.WriteRune(r)
+			}
+			for _, r = range ws.content {
+				middle.WriteRune(r)
+			}
+			for _, r = range ws.puncAfter {
+				middle.WriteRune(r)
+			}
+			switch ws.spaceAfter {
+				case 1: middle.WriteByte(' ')
+				case 2: middle.WriteByte('-')
+				case 3: middle.WriteByte('/')
+			}
+		}
+	} else {
+		// Get first and last name if there is no comma
+		going = true
+		for i=l-1; i>=0; i-- {
+			ws = &words[i]
+			if len(ws.content) == 0 {
+				continue
+			}
+			if going && ws.isRoman {
+				going = false
+				i--
+				continue
+			}
+			
+			if ws.spaceAfter > 1 {
+				continue
+			}
+			if _, ok = multilast.Find(content); ok {
+				continue
+			}
+			
+			if i < l - 1 {
+				break
+			}
+		}
+		lastpos := i + 1
+		for i=lastpos; i<l; i++ {
+			ws = &words[i]
+			if len(ws.content) == 0 {
+				continue
+			}
+			for _, r = range ws.puncBefore {
+				last.WriteRune(r)
+			}
+			for _, r = range ws.content {
+				last.WriteRune(r)
+			}
+			for _, r = range ws.puncAfter {
+				last.WriteRune(r)
+			}
+			if i < comma - 1 {
+				switch ws.spaceAfter {
+					case 1: last.WriteByte(' ')
+					case 2: last.WriteByte('-')
+					case 3: last.WriteByte('/')
+				}
+			}
+		}
+		for i=0; i<lastpos; i++ {
+			ws = &words[i]
+			if len(ws.content) == 0 {
+				continue
+			}
+			for _, r = range ws.puncBefore {
+				first.WriteRune(r)
+			}
+			for _, r = range ws.content {
+				first.WriteRune(r)
+			}
+			for _, r = range ws.puncAfter {
+				first.WriteRune(r)
+			}
+			switch ws.spaceAfter {
+				case 1: i++; break
+				case 2: first.WriteByte('-')
+				case 3: first.WriteByte('/')
+			}
+		}
+		for ; i<lastpos; i++ {
+			ws = &words[i]
+			if len(ws.content) == 0 {
+				continue
+			}
+			for _, r = range ws.puncBefore {
+				middle.WriteRune(r)
+			}
+			for _, r = range ws.content {
+				middle.WriteRune(r)
+			}
+			for _, r = range ws.puncAfter {
+				middle.WriteRune(r)
+			}
+			switch ws.spaceAfter {
+				case 1: middle.WriteByte(' ')
+				case 2: middle.WriteByte('-')
+				case 3: middle.WriteByte('/')
+			}
+		}
+	}
+	
+	author.First = first.String()
+	author.Middle = middle.String()
+	author.Last = last.String()
+	
+	return buf.String(), author
 }
 
