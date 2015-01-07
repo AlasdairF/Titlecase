@@ -88,7 +88,7 @@ func init() {
 	 []rune("Chevalier"), []rune("Ritter"), []rune("Cavaliere"), []rune("Nobiluomo"), []rune("Duque"), []rune("Príncipe"), []rune("Marquês"), []rune("Conde"), []rune("Visconde"), []rune("Barão"), []rune("Baronete"), []rune("Professor"),
 	 []rune("Duchess"), []rune("Countess"), []rune("Baroness"), []rune("Dame"), []rune("Duc"), []rune("Viceroi"), []rune("Fürst"), []rune("Baronetto"), []rune("Principessa"), []rune("Visconte"), []rune("Princesse"), []rune("Roi"),
 	 []rune("Reine"), []rune("Kaiserin"), []rune("König"), []rune("Königin"), []rune("Re"), []rune("Regina"), []rune("Rei"), []rune("Rainha"), []rune("Pape"), []rune("Papa"), []rune("Papst"), []rune("Monsieur"), []rune("Madame"),
-	 []rune("Herr"), []rune("Père"), []rune("Padre"), []rune("Vater"), []rune("Saint"), []rune("Heilige"), []rune("San"), []rune("Arciduca"), []rune("Commodore"), []rune("Regent"),
+	 []rune("Herr"), []rune("Père"), []rune("Padre"), []rune("Vater"), []rune("Saint"), []rune("Heilige"), []rune("San"), []rune("Arciduca"), []rune("Commodore"), []rune("Regent"), []rune("Lady"),
 	}
 	titles.Build()
 	
@@ -307,7 +307,7 @@ func (r *runebuf) add(words []wordStruct, spaceType uint8) []wordStruct {
 	}
 	// Reset buffer
 	r.len = 0
-	words = append(words, wordStruct{content, false, isEnd, isHonor, contraction, spaceType, puncBefore, puncAfter})
+	words = append(words, wordStruct{content, false, isEnd, isHonor, false, false, contraction, spaceType, puncBefore, puncAfter})
 	return words
 }
 
