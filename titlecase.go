@@ -808,6 +808,7 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 				}
 			}
 		}
+	Out1:
 		for ; i<l; i++ {
 			ws = &words[i]
 			if len(ws.content) == 0 {
@@ -823,7 +824,7 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 				first.WriteRune(r)
 			}
 			switch ws.spaceAfter {
-				case 1: i++; break
+				case 1: i++; break Out1
 				case 2: first.WriteByte('-')
 				case 3: first.WriteByte('/')
 			}
@@ -896,6 +897,7 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 				case 3: last.WriteByte('/')
 			}
 		}
+	Out2:
 		for i=0; i<lastpos; i++ {
 			ws = &words[i]
 			if len(ws.content) == 0 {
@@ -911,7 +913,7 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 				first.WriteRune(r)
 			}
 			switch ws.spaceAfter {
-				case 1: i++; break
+				case 1: i++; break Out2
 				case 2: first.WriteByte('-')
 				case 3: first.WriteByte('/')
 			}
@@ -938,9 +940,21 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 		}
 	}
 	
-	author.First = first.String()
-	author.Middle = middle.String()
-	author.Last = last.String()
+	b = first.Bytes()
+	if b[len(b)-1] == ' ' {
+		b = b[0:len(b)-1]
+	}
+	author.First = string(b)
+	b = middle.Bytes()
+	if b[len(b)-1] == ' ' {
+		b = b[0:len(b)-1]
+	}
+	author.Middle = string(b)
+	b = last.Bytes()
+	if b[len(b)-1] == ' ' {
+		b = b[0:len(b)-1]
+	}
+	author.Last = string(b)
 	
 	return buf.String(), author
 }
