@@ -942,9 +942,9 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 		}
 	}
 	
-	author.First = string(bytes.TrimRight(first.Bytes(), `, `))
-	author.Middle = string(bytes.TrimRight(middle.Bytes(), `, `))
-	author.Last = string(bytes.TrimRight(last.Bytes(), `, `))
+	author.First = string(bytes.Trim(first.Bytes(), `, `))
+	author.Middle = string(bytes.Trim(middle.Bytes(), `, `))
+	author.Last = string(bytes.Trim(last.Bytes(), `, `))
 	
 	return buf.String(), author
 }
