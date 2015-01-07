@@ -94,7 +94,6 @@ func init() {
 	// Initate exceptions for mutli-part last names
 	multilast.Key = [][]rune {
 	 []rune("de"), []rune("da"), []rune("di"), []rune("von"), []rune("van"), []rune("le"), []rune("la"), []rune("du"), []rune("des"), []rune("del"), []rune("della"), []rune("der"),
-	 []rune("De"), []rune("Da"), []rune("Di"), []rune("Von"), []rune("Van"), []rune("Le"), []rune("La"), []rune("Du"), []rune("Des"), []rune("Del"), []rune("Della"), []rune("Der"),
 	}
 	multilast.Build()
 	
@@ -649,6 +648,13 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 			continue
 		}
 		
+		// If this is an author check then also check multi-country lowercasings that occur in surnames
+		if formatAuthor {
+			if _, ok = multilast.Find(content); ok {
+				continue
+			}
+		}
+		
 		// Uppercase the first rune if none of the previous rules applied
 		replaceRune(ws.puncAfter, '.', ';')
 		upperRune(content, 0)
@@ -867,7 +873,6 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 				continue
 			}
 			if _, ok = multilast.Find(ws.content); ok {
-				ws.content[0] = unicode.ToLower(ws.content[0])
 				going = false
 				continue
 			}
