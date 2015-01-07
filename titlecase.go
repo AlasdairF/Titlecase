@@ -29,7 +29,6 @@ import (
  "unicode"
  "unicode/utf8"
  "github.com/AlasdairF/BinSearch"
- "fmt"
 )
 
 const (
@@ -766,6 +765,18 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 		}
 	}
 	
+	// Check there is anything after the comma
+	going = false
+	for i=comma; i<l; i++ {
+		if len(words[i].content) > 0 {
+			going = true
+			break
+		}
+	}
+	if !going {
+		comma = 0
+	}
+	
 	// Rebuild what's left
 	var first bytes.Buffer
 	var middle bytes.Buffer
@@ -849,7 +860,6 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 				i--
 				continue
 			}
-			fmt.Println(i, string(ws.content))
 			going = false
 			if ws.spaceAfter > 1 {
 				continue
@@ -862,7 +872,6 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 			}
 		}
 		lastpos := i + 1
-		fmt.Println(`lastpos`, lastpos)
 		for i=lastpos; i<l; i++ {
 			ws = &words[i]
 			if len(ws.content) == 0 {
