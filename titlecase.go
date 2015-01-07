@@ -737,7 +737,7 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 			continue
 		}
 		
-		if ws.isHonor {
+		if ws.isHonor || ws.isTitle {
 			if len(author.Suffix) == 0 {
 				author.Suffix = string(content) + `.`
 			} else {
@@ -940,32 +940,9 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 		}
 	}
 	
-	b = first.Bytes()
-	l = len(b)
-	if l > 0 {
-		if b[l-1] == ' ' {
-			b = b[0:l-1]
-		}
-		author.First = string(b)
-	}
-	
-	b = middle.Bytes()
-	l = len(b)
-	if l > 0 {
-		if b[l-1] == ' ' {
-			b = b[0:l-1]
-		}
-		author.Middle = string(b)
-	}
-	
-	b = last.Bytes()
-	l = len(b)
-	if l > 0 {
-		if b[l-1] == ' ' {
-			b = b[0:l-1]
-		}
-		author.Last = string(b)
-	}
+	author.First = string(bytes.TrimRight(first.Bytes(), `, `))
+	author.Middle = string(bytes.TrimRight(middle.Bytes(), `, `))
+	author.Last = string(bytes.TrimRight(last.Bytes(), `, `))
 	
 	return buf.String(), author
 }
