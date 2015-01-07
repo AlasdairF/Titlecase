@@ -886,7 +886,9 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 				last.WriteRune(r)
 			}
 			for _, r = range ws.puncAfter {
-				last.WriteRune(r)
+				if r != ',' {
+					last.WriteRune(r)
+				}
 			}
 			switch ws.spaceAfter {
 				case 1: last.WriteByte(' ')
