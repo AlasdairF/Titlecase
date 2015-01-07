@@ -590,7 +590,7 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 			}
 		}
 		
-		if language == english {
+		if language == Language_English {
 			// Special for English: repair grammatical error on a -> an
 			if ln == 1 {
 				if content[0] == 'a' {
@@ -609,7 +609,7 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 			}
 		} else {
 			// Check for contractions
-			if ws.contraction > 0 && language != german {
+			if ws.contraction > 0 && language != Language_German {
 				if isContraction(content[0:ws.contraction]) {
 					if ws.isStart {
 						upperRune(content, 0)
