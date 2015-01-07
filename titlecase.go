@@ -80,7 +80,7 @@ func init() {
 	// Initate exceptions for titles
 	titles.Key = [][]rune {
 	 []rune("Sir"), []rune("Lord"), []rune("Baron"), []rune("Count"), []rune("Viscount"), []rune("Duke"), []rune("Marquess"), []rune("Earl"), []rune("Laird"), []rune("Master"), []rune("Bishop"), []rune("Father"), []rune("Sister"),
-	 []rune("Pope"), []rune("Rabbi"), []rune("General"), []rune("Major"), []rune("Private"), []rune("Captain"), []rune("Sergent"), []rune("Commander"), []rune("Admiral"), []rune("Lieutenant"), []rune("Marquise"), []rune("Duca"), []rune("Arciduca"),
+	 []rune("Pope"), []rune("Rabbi"), []rune("General"), []rune("Major"), []rune("Private"), []rune("Captain"), []rune("Sergent"), []rune("Commander"), []rune("Admiral"), []rune("Lieutenant"), []rune("Marquise"), []rune("Duca"),
 	 []rune("Abbot"), []rune("Reverend"), []rune("Deacon"), []rune("Archbishop"), []rune("Cardinal"), []rune("Chancellor"), []rune("Chaplain"), []rune("Vicar"), []rune("Doctor"), []rune("Guru"), []rune("principe"), []rune("marchese"),
 	 []rune("Prince"), []rune("King"), []rune("Queen"), []rune("Princess"), []rune("Emperor"), []rune("Caesar"), []rune("tsar"), []rune("Czar"), []rune("Csar"), []rune("Tzar"), []rune("Kaiser"), []rune("Sultan"), []rune("Conte"),
 	 []rune("Dauphin"), []rune("Infante"), []rune("Margrave"), []rune("Marquis"), []rune("Freiherr"), []rune("Seigneur"), []rune("Nobile"), []rune("Baronet"), []rune("Dominus"), []rune("Vidame"), []rune("Vavasour"), []rune("Contessa"),
@@ -88,7 +88,7 @@ func init() {
 	 []rune("Chevalier"), []rune("Ritter"), []rune("Cavaliere"), []rune("Nobiluomo"), []rune("Duque"), []rune("Príncipe"), []rune("Marquês"), []rune("Conde"), []rune("Visconde"), []rune("Barão"), []rune("Baronete"), []rune("Professor"),
 	 []rune("Duchess"), []rune("Countess"), []rune("Baroness"), []rune("Dame"), []rune("Duc"), []rune("Viceroi"), []rune("Fürst"), []rune("Baronetto"), []rune("Principessa"), []rune("Visconte"), []rune("Princesse"), []rune("Roi"),
 	 []rune("Reine"), []rune("Kaiserin"), []rune("König"), []rune("Königin"), []rune("Re"), []rune("Regina"), []rune("Rei"), []rune("Rainha"), []rune("Pape"), []rune("Papa"), []rune("Papst"), []rune("Monsieur"), []rune("Madame"),
-	 []rune("Herr"), []rune("Père"), []rune("Padre"), []rune("Vater"), []rune("Saint"), []rune("Heilige"), []rune("San"),
+	 []rune("Herr"), []rune("Père"), []rune("Padre"), []rune("Vater"), []rune("Saint"), []rune("Heilige"), []rune("San"), []rune("Arciduca"), []rune("Commodore"), []rune("Regent"),
 	}
 	titles.Build()
 	
@@ -410,37 +410,37 @@ func replaceRune(s []rune, from rune, to rune) {
 }
 
 func English(str string) string {
-	str, _ := format(str, english, false)
+	str, _ = format(str, english, false)
 	return str
 }
 
 func French(str string) string {
-	str, _ := format(str, french, false)
+	str, _ = format(str, french, false)
 	return str
 }
 
 func German(str string) string {
-	str, _ := format(str, german, false)
+	str, _ = format(str, german, false)
 	return str
 }
 
 func Italian(str string) string {
-	str, _ := format(str, italian, false)
+	str, _ = format(str, italian, false)
 	return str
 }
 
 func Spanish(str string) string {
-	str, _ := format(str, spanish, false)
+	str, _ = format(str, spanish, false)
 	return str
 }
 
 func Portuguese(str string) string {
-	str, _ := format(str, portuguese, false)
+	str, _ = format(str, portuguese, false)
 	return str
 }
 
 func Generic(str string) string {
-	str, _ := format(str, generic, false)
+	str, _ = format(str, generic, false)
 	return str
 }
 
@@ -730,7 +730,7 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 	
 	// Find author's suffix & check for comma in puncAfter
 	var comma int
-	for i=0 i<l; i++ {
+	for i=0; i<l; i++ {
 		ws = &words[i]
 		content = ws.content
 		ln = len(content)
