@@ -29,6 +29,7 @@ import (
  "unicode"
  "unicode/utf8"
  "github.com/AlasdairF/BinSearch"
+ "fmt"
 )
 
 const (
