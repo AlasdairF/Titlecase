@@ -3,7 +3,7 @@
 
 TITLECASE
 
-This is a production-quality package made for cleaning and formatting book titlesabv, but it can be used for titlecasing anything.
+This is a production-quality package made for cleaning and formatting book titles, but it can be used for titlecasing anything.
 
 * Supports multiple languages: English, French, German, Italian, Spanish, Portuguese & Generic
 * Supports contractions
