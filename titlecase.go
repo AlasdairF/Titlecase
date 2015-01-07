@@ -32,14 +32,13 @@ import (
 )
 
 const (
- generic 	= 0
- english 	= 1
- french  	= 2
- german  	= 3
- italian 	= 4
- spanish 	= 5
- portuguese	= 6
- author		= 7
+ Language_Generic 		= 0
+ Language_English 		= 1
+ Language_French  		= 2
+ Language_German  		= 3
+ Language_Italian 		= 4
+ Language_Spanish 		= 5
+ Language_Portuguese	= 6
 )
 
 type honorStruct struct {
@@ -410,37 +409,37 @@ func replaceRune(s []rune, from rune, to rune) {
 }
 
 func English(str string) string {
-	str, _ = format(str, english, false)
+	str, _ = format(str, Language_English, false)
 	return str
 }
 
 func French(str string) string {
-	str, _ = format(str, french, false)
+	str, _ = format(str, Language_French, false)
 	return str
 }
 
 func German(str string) string {
-	str, _ = format(str, german, false)
+	str, _ = format(str, Language_German, false)
 	return str
 }
 
 func Italian(str string) string {
-	str, _ = format(str, italian, false)
+	str, _ = format(str, Language_Italian, false)
 	return str
 }
 
 func Spanish(str string) string {
-	str, _ = format(str, spanish, false)
+	str, _ = format(str, Language_Spanish, false)
 	return str
 }
 
 func Portuguese(str string) string {
-	str, _ = format(str, portuguese, false)
+	str, _ = format(str, Language_Portuguese, false)
 	return str
 }
 
 func Generic(str string) string {
-	str, _ = format(str, generic, false)
+	str, _ = format(str, Language_Generic, false)
 	return str
 }
 
@@ -455,12 +454,12 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 	}
 	var small binsearch.Key_runes
 	switch language {
-		case english: small = englishSmall
-		case french: small = frenchSmall
-		case german: small = germanSmall
-		case italian: small = italianSmall
-		case spanish: small = spanishSmall
-		case portuguese: small = portugueseSmall
+		case Language_English: small = englishSmall
+		case Language_French: small = frenchSmall
+		case Language_German: small = germanSmall
+		case Language_Italian: small = italianSmall
+		case Language_Spanish: small = spanishSmall
+		case Language_Portuguese: small = portugueseSmall
 	}
 	
 	// Preprocessing
