@@ -848,11 +848,12 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 				i--
 				continue
 			}
+			fmt.Println(i, string(ws.content))
 			going = false
 			if ws.spaceAfter > 1 {
 				continue
 			}
-			if _, ok = multilast.Find(content); ok {
+			if _, ok = multilast.Find(ws.content); ok {
 				continue
 			}
 			if i < l - 1 {
@@ -860,6 +861,7 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 			}
 		}
 		lastpos := i + 1
+		fmt.Println(`lastpos`, lastpos)
 		for i=lastpos; i<l; i++ {
 			ws = &words[i]
 			if len(ws.content) == 0 {
