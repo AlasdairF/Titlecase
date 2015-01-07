@@ -860,16 +860,18 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 				i--
 				continue
 			}
-			going = false
 			if ws.spaceAfter > 1 {
+				going = false
 				continue
 			}
 			if _, ok = multilast.Find(ws.content); ok {
+				going = false
 				continue
 			}
-			if i < l - 1 {
+			if i < l - 1 && !going {
 				break
 			}
+			going = false
 		}
 		lastpos := i + 1
 		for i=lastpos; i<l; i++ {
