@@ -79,7 +79,7 @@ func init() {
 	
 	// Initate exceptions for titles
 	titles.Key = [][]rune {
-	 []rune("Sir"), []rune("Lord"), []rune("Baron"), []rune("Count") []rune("Viscount"), []rune("Duke"), []rune("Marquess"), []rune("Earl"), []rune("Laird"), []rune("Master"), []rune("Bishop"), []rune("Father"), []rune("Sister"),
+	 []rune("Sir"), []rune("Lord"), []rune("Baron"), []rune("Count"), []rune("Viscount"), []rune("Duke"), []rune("Marquess"), []rune("Earl"), []rune("Laird"), []rune("Master"), []rune("Bishop"), []rune("Father"), []rune("Sister"),
 	 []rune("Pope"), []rune("Rabbi"), []rune("General"), []rune("Major"), []rune("Private"), []rune("Captain"), []rune("Sergent"), []rune("Commander"), []rune("Admiral"), []rune("Lieutenant"), []rune("Marquise"), []rune("Duca"), []rune("Arciduca"),
 	 []rune("Abbot"), []rune("Reverend"), []rune("Deacon"), []rune("Archbishop"), []rune("Cardinal"), []rune("Chancellor"), []rune("Chaplain"), []rune("Vicar"), []rune("Doctor"), []rune("Guru"), []rune("principe"), []rune("marchese"),
 	 []rune("Prince"), []rune("King"), []rune("Queen"), []rune("Princess"), []rune("Emperor"), []rune("Caesar"), []rune("tsar"), []rune("Czar"), []rune("Csar"), []rune("Tzar"), []rune("Kaiser"), []rune("Sultan"), []rune("Conte"),
