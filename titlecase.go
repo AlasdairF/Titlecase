@@ -845,18 +845,16 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 				continue
 			}
 			if going && ws.isRoman {
-				going = false
 				i--
 				continue
 			}
-			
+			going = false
 			if ws.spaceAfter > 1 {
 				continue
 			}
 			if _, ok = multilast.Find(content); ok {
 				continue
 			}
-			
 			if i < l - 1 {
 				break
 			}
@@ -876,12 +874,10 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 			for _, r = range ws.puncAfter {
 				last.WriteRune(r)
 			}
-			if i < comma - 1 {
-				switch ws.spaceAfter {
-					case 1: last.WriteByte(' ')
-					case 2: last.WriteByte('-')
-					case 3: last.WriteByte('/')
-				}
+			switch ws.spaceAfter {
+				case 1: last.WriteByte(' ')
+				case 2: last.WriteByte('-')
+				case 3: last.WriteByte('/')
 			}
 		}
 		for i=0; i<lastpos; i++ {
