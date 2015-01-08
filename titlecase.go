@@ -678,7 +678,7 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 		if formatAuthor {
 			if ln == 1 {
 				if len(ws.puncAfter) == 0 && !unicode.IsLower(ws.content[0]) {
-					buf.WriteByte('.')
+					ws.puncAfter = []rune{'.'}
 				}
 			}
 		}
