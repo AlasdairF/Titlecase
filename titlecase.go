@@ -664,7 +664,8 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 	var buf bytes.Buffer
 	for i=0; i<l; i++ {
 		ws = &words[i]
-		if len(ws.content) == 0 {
+		ln = len(ws.content)
+		if ln == 0 {
 			continue
 		}
 		for _, r = range ws.puncBefore {
@@ -672,6 +673,14 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 		}
 		for _, r = range ws.content {
 			buf.WriteRune(r)
+		}
+		// If formatAuthor then add period after individual letters that are uppercase
+		if formatAuthor {
+			if ln == 1 {
+				if len(ws.puncAfter) == 0 && !unicode.IsLower(ws.content[0]) {
+					buf.WriteByte('.')
+				}
+			}
 		}
 		for _, r = range ws.puncAfter {
 			buf.WriteRune(r)
