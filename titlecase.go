@@ -150,11 +150,11 @@ func init() {
 	 []rune("M.D"), []rune("O.D"), []rune("Pharm.D"), []rune("Ph.D"), []rune("E.g"), []rune("I.e"), []rune("Lt.Col"), []rune("D.D"),
 	}
 	temp = make([][]rune, len(honor.format))
-	newindexes := honor.Build()
+	newindexes, _ := honor.Build()
 	for indx_new, indx_old := range newindexes {
 		temp[indx_new] = honor.format[indx_old]
 	}
-	honor.format = tempb
+	honor.format = temp
 	
 	// Initiate exceptions for English small words
 	temp = [][]rune {
@@ -491,7 +491,7 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 	if len(str) == 0 {
 		return ``, nil
 	}
-	var small binsearch.Key_runes
+	var small binsearch.KeyRunes
 	switch language {
 		case Language_English: small = englishSmall
 		case Language_French: small = frenchSmall
