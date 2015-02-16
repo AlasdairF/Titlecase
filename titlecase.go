@@ -42,17 +42,20 @@ const (
 )
 
 type honorStruct struct {
- binsearch.Key_runes
+ binsearch.KeyRunes
  format [][]rune
 }
 
-var romanExceptions, makecaps, englishSmall, frenchSmall, germanSmall, italianSmall, spanishSmall, portugueseSmall, titlesabv, titles, multilast binsearch.Key_runes
+var romanExceptions, makecaps, englishSmall, frenchSmall, germanSmall, italianSmall, spanishSmall, portugueseSmall, titlesabv, titles, multilast binsearch.KeyRunes
 var honor honorStruct
 
 func init() {
-
+	
+	var temp [][]rune
+	var word []rune
+	
 	// Initate exceptions for Roman numerals
-	romanExceptions.Key = [][]rune {
+	temp = [][]rune {
 	 []rune("ci"), []rune("cid"), []rune("cill"), []rune("civic"), []rune("civil"), []rune("clim"), []rune("cm"), []rune("di"), []rune("did"), []rune("didi"), []rune("dill"), []rune("dilli"),
 	 []rune("dim"), []rune("divi"), []rune("dividivi"), []rune("dix"), []rune("dixi"), []rune("dixil"), []rune("dm"), []rune("id"), []rune("ill"), []rune("im"), []rune("imid"), []rune("imidic"),
 	 []rune("immix"), []rune("ld"), []rune("li"), []rune("lid"), []rune("lil"), []rune("lili"), []rune("lill"), []rune("lilli"), []rune("lim"), []rune("liv"), []rune("livi"), []rune("livid"),
@@ -60,24 +63,33 @@ func init() {
 	 []rune("mimi"), []rune("mimic"), []rune("mix"), []rune("mv"), []rune("vi"), []rune("vic"), []rune("vici"), []rune("vid"), []rune("vild"), []rune("vill"), []rune("villi"), []rune("vim"),
 	 []rune("viv"), []rune("vivi"), []rune("vivid"), []rune("vivl"), //[]rune("md"),
 	}
+	for _, word = range temp {
+		romanExceptions.AddUnsorted(word)
+	}
 	romanExceptions.Build()
 	
 	// Initate exceptions for ALLCAPS
-	makecaps.Key = [][]rune {
+	temp = [][]rune {
 	 []rune("abc"), []rune("usa"), []rune("ussr"), []rune("usaf"), []rune("uscg"), []rune("usmc"), []rune("usn"), []rune("ymca"), []rune("raf"), []rune("uk"),
+	}
+	for _, word = range temp {
+		makecaps.AddUnsorted(word)
 	}
 	makecaps.Build()
 	
 	// Initate exceptions for titlesabv
-	titlesabv.Key = [][]rune {
+	temp = [][]rune {
 	 []rune("mr"), []rune("ms"), []rune("miss"), []rune("mrs"), []rune("dr"), []rune("prof"), []rune("rev"), []rune("esq"), []rune("hon"), []rune("jr"), []rune("messrs"), []rune("mmes"), []rune("msgr"), []rune("rt"),
 	 []rune("sr"), []rune("st"), []rune("lt"), []rune("col"), []rune("gen"), []rune("pseud"), []rune("maj"), []rune("brig"), []rune("capt"), []rune("sgt"), []rune("cpl"), []rune("pvt"), []rune("pfc"), []rune("cmdr"),
 	 []rune("adm"), []rune("lieut"), []rune("pte"),
 	}
+	for _, word = range temp {
+		titlesabv.AddUnsorted(word)
+	}
 	titlesabv.Build()
 	
 	// Initate exceptions for titles
-	titles.Key = [][]rune {
+	temp = [][]rune {
 	 []rune("Sir"), []rune("Lord"), []rune("Baron"), []rune("Count"), []rune("Viscount"), []rune("Duke"), []rune("Marquess"), []rune("Earl"), []rune("Laird"), []rune("Master"), []rune("Bishop"), []rune("Father"), []rune("Sister"),
 	 []rune("Pope"), []rune("Rabbi"), []rune("General"), []rune("Major"), []rune("Private"), []rune("Captain"), []rune("Sergent"), []rune("Commander"), []rune("Admiral"), []rune("Lieutenant"), []rune("Marquise"), []rune("Duca"),
 	 []rune("Abbot"), []rune("Reverend"), []rune("Deacon"), []rune("Archbishop"), []rune("Cardinal"), []rune("Chancellor"), []rune("Chaplain"), []rune("Vicar"), []rune("Doctor"), []rune("Guru"), []rune("principe"), []rune("marchese"),
@@ -89,16 +101,22 @@ func init() {
 	 []rune("Reine"), []rune("Kaiserin"), []rune("König"), []rune("Königin"), []rune("Re"), []rune("Regina"), []rune("Rei"), []rune("Rainha"), []rune("Pape"), []rune("Papa"), []rune("Papst"), []rune("Monsieur"), []rune("Madame"),
 	 []rune("Herr"), []rune("Père"), []rune("Padre"), []rune("Vater"), []rune("Saint"), []rune("Heilige"), []rune("San"), []rune("Arciduca"), []rune("Commodore"), []rune("Regent"), []rune("Lady"),
 	}
+	for _, word = range temp {
+		titles.AddUnsorted(word)
+	}
 	titles.Build()
 	
 	// Initate exceptions for mutli-part last names
-	multilast.Key = [][]rune {
+	temp = [][]rune {
 	 []rune("de"), []rune("da"), []rune("di"), []rune("von"), []rune("van"), []rune("le"), []rune("la"), []rune("du"), []rune("des"), []rune("del"), []rune("della"), []rune("der"),
+	}
+	for _, word = range temp {
+		multilast.AddUnsorted(word)
 	}
 	multilast.Build()
 	
 	// Initate exceptions for honor
-	honor.Key = [][]rune {
+	temp = [][]rune {
 	 []rune("a.a"), []rune("a.a.s"), []rune("a.a.t"), []rune("a.o.t"), []rune("a.s"), []rune("b.a"), []rune("b.a.b.a"), []rune("b.a.com"), []rune("b.a.e"), []rune("b.a.ed"), []rune("b.arch"), []rune("b.a.s"), []rune("b.b.a"), 
 	 []rune("b.b.e"), []rune("b.c.e"), []rune("b.che.e"), []rune("b.e.e"), []rune("b.f.a"), []rune("b.g.s"), []rune("b.i.arch"), []rune("b.in.dsn"), []rune("b.i.s"), []rune("b.i.s.e"), []rune("b.l.a"), []rune("b.m"), []rune("b.m.e"),
 	 []rune("b.m.ed"), []rune("b.mtl.e"), []rune("b.p.f.e"), []rune("b.p.h.s"), []rune("b.s"), []rune("b.s.a.e"), []rune("b.s.b.a"), []rune("b.s.b.m.e"), []rune("b.s.c.b.a"), []rune("b.s.c.e"), []rune("b.s.che.e"), []rune("b.s.chem"),
@@ -112,6 +130,9 @@ func init() {
 	 []rune("m.s.m.sci"), []rune("m.s.mt.e"), []rune("m.s.n"), []rune("m.s.o.r"), []rune("m.s.o.t"), []rune("m.s.p.a.s"), []rune("m.s.p.h"), []rune("m.s.s.e"), []rune("m.s.w"), []rune("m.sw.e"), []rune("m.t.a"), []rune("m.tx"),
 	 []rune("m.u.r.p"), []rune("ed.s"), []rune("au.d"), []rune("d.b.a"), []rune("d.m.a"), []rune("d.m.d"), []rune("d.n.p"), []rune("d.p.t"), []rune("dr.p.h"), []rune("d.sc"), []rune("d.v.m"), []rune("ed.d"), []rune("j.d"),
 	 []rune("m.d"), []rune("o.d"), []rune("pharm.d"), []rune("ph.d"), []rune("e.g"), []rune("i.e"), []rune("lt.col"), []rune("d.d"),
+	}
+	for _, word = range temp {
+		honor.AddUnsorted(word)
 	}
 	honor.format = [][]rune {
 	 []rune("A.A"), []rune("A.A.S"), []rune("A.A.T"), []rune("A.O.T"), []rune("A.S"), []rune("B.A"), []rune("B.A.B.A"), []rune("B.A.Com"), []rune("B.A.E"), []rune("B.A.Ed"), []rune("B.Arch"), []rune("B.A.S"), []rune("B.B.A"), 
@@ -128,51 +149,69 @@ func init() {
 	 []rune("M.U.R.P"), []rune("Ed.S"), []rune("Au.D"), []rune("D.B.A"), []rune("D.M.A"), []rune("D.M.D"), []rune("D.N.P"), []rune("D.P.T"), []rune("Dr.P.H"), []rune("D.Sc"), []rune("D.V.M"), []rune("Ed.D"), []rune("J.D"),
 	 []rune("M.D"), []rune("O.D"), []rune("Pharm.D"), []rune("Ph.D"), []rune("E.g"), []rune("I.e"), []rune("Lt.Col"), []rune("D.D"),
 	}
-	temp := make([][]rune, len(honor.format))
+	temp = make([][]rune, len(honor.format))
 	newindexes := honor.Build()
 	for indx_new, indx_old := range newindexes {
 		temp[indx_new] = honor.format[indx_old]
 	}
-	honor.format = temp
+	honor.format = tempb
 	
 	// Initiate exceptions for English small words
-	englishSmall.Key = [][]rune {
+	temp = [][]rune {
 	 []rune("a"), []rune("an"), []rune("and"), []rune("as"), []rune("at"), []rune("but"), []rune("by"), []rune("for"), []rune("if"), []rune("in"), []rune("of"), []rune("on"), []rune("or"), []rune("the"), []rune("to"),
+	}
+	for _, word = range temp {
+		englishSmall.AddUnsorted(word)
 	}
 	englishSmall.Build()
 	
 	// Initiate exceptions for French small words: d', l'
-	frenchSmall.Key = [][]rune {
+	temp = [][]rune {
 	 []rune("à"), []rune("au"), []rune("aux"), []rune("ce"), []rune("cette"), []rune("dans"), []rune("de"), []rune("des"), []rune("du"), []rune("en"), []rune("la"), []rune("le"), []rune("les"), []rune("ou"), []rune("par"),
 	 []rune("pour"), []rune("sur"), []rune("un"),[]rune("une"),
+	}
+	for _, word = range temp {
+		frenchSmall.AddUnsorted(word)
 	}
 	frenchSmall.Build()
 	
 	// Initiate exceptions for German small words
-	germanSmall.Key = [][]rune {
+	temp = [][]rune {
 	 []rune("als"), []rune("am"), []rune("an"), []rune("auf"), []rune("aus"), []rune("bei"), []rune("bis"), []rune("das"), []rune("dem"), []rune("den"), []rune("der"), []rune("des"), []rune("die"), []rune("ein"), []rune("eine"),
 	 []rune("für"), []rune("im"), []rune("in"), []rune("ins"), []rune("mit"), []rune("nach"), []rune("oder"), []rune("og"), []rune("und"), []rune("van"), []rune("vom"), []rune("von"), []rune("wie"), []rune("zu"), []rune("zum"), []rune("zur"),
+	}
+	for _, word = range temp {
+		germanSmall.AddUnsorted(word)
 	}
 	germanSmall.Build()
 	
 	// Initiate exceptions for Italian small words
-	italianSmall.Key = [][]rune {
+	temp = [][]rune {
 	 []rune("a"), []rune("al"), []rune("con"), []rune("da"), []rune("dai"), []rune("dal"), []rune("dei"), []rune("del"), []rune("della"), []rune("di"), []rune("e"), []rune("ed"), []rune("i"), []rune("il"), []rune("in"),
 	 []rune("la"), []rune("le"), []rune("lo"), []rune("nella"), []rune("o"), []rune("per"), []rune("se"), []rune("su"), []rune("un"), []rune("una"), []rune("uno"),
+	}
+	for _, word = range temp {
+		italianSmall.AddUnsorted(word)
 	}
 	italianSmall.Build()
 	
 	// Initiate exceptions for Portuguese small words
-	portugueseSmall.Key = [][]rune {
+	temp = [][]rune {
 	 []rune("à"), []rune("às"), []rune("ao"), []rune("da"), []rune("das"), []rune("de"), []rune("do"), []rune("e"), []rune("em"), []rune("na"), []rune("no"), []rune("o"), []rune("para"), []rune("pelo"), []rune("pelos"),
 	 []rune("por"), []rune("se"), []rune("um"), []rune("uma"), []rune("pelas"), []rune("pela"),
+	}
+	for _, word = range temp {
+		portugueseSmall.AddUnsorted(word)
 	}
 	portugueseSmall.Build()
 	
 	// Initiate exceptions for Spanish small words
-	spanishSmall.Key = [][]rune {
+	temp = [][]rune {
 	 []rune("a"), []rune("al"), []rune("de"), []rune("del"), []rune("e"), []rune("é"), []rune("el"), []rune("en"), []rune("la"), []rune("las"), []rune("los"), []rune("o"), []rune("ó"), []rune("para"), []rune("por"),
 	 []rune("si"), []rune("un"), []rune("una"), []rune("y"),
+	}
+	for _, word = range temp {
+		spanishSmall.AddUnsorted(word)
 	}
 	spanishSmall.Build()
 	
