@@ -930,6 +930,9 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 			going = false
 		}
 		lastpos := i + 1
+		if lastpos >= l { // sanity check
+			lastpos = l - 1
+		}
 		for i=lastpos; i<l; i++ {
 			ws = &words[i]
 			if len(ws.content) == 0 {
