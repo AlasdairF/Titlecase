@@ -67,6 +67,7 @@ func init() {
 		romanExceptions.AddUnsorted(word)
 	}
 	romanExceptions.Build()
+	romanExceptions.Optimize()
 	
 	// Initate exceptions for ALLCAPS
 	temp = [][]rune {
@@ -76,6 +77,7 @@ func init() {
 		makecaps.AddUnsorted(word)
 	}
 	makecaps.Build()
+	makecaps.Optimize()
 	
 	// Initate exceptions for titlesabv
 	temp = [][]rune {
@@ -87,6 +89,7 @@ func init() {
 		titlesabv.AddUnsorted(word)
 	}
 	titlesabv.Build()
+	titlesabv.Optimize()
 	
 	// Initate exceptions for titles
 	temp = [][]rune {
@@ -105,6 +108,7 @@ func init() {
 		titles.AddUnsorted(word)
 	}
 	titles.Build()
+	titles.Optimize()
 	
 	// Initate exceptions for mutli-part last names
 	temp = [][]rune {
@@ -114,6 +118,7 @@ func init() {
 		multilast.AddUnsorted(word)
 	}
 	multilast.Build()
+	multilast.Optimize()
 	
 	// Initate exceptions for honor
 	temp = [][]rune {
@@ -155,6 +160,7 @@ func init() {
 		temp[indx_new] = honor.format[indx_old]
 	}
 	honor.format = temp
+	honor.Optimize()
 	
 	// Initiate exceptions for English small words
 	temp = [][]rune {
@@ -164,6 +170,7 @@ func init() {
 		englishSmall.AddUnsorted(word)
 	}
 	englishSmall.Build()
+	englishSmall.Optimize()
 	
 	// Initiate exceptions for French small words: d', l'
 	temp = [][]rune {
@@ -174,6 +181,7 @@ func init() {
 		frenchSmall.AddUnsorted(word)
 	}
 	frenchSmall.Build()
+	frenchSmall.Optimize()
 	
 	// Initiate exceptions for German small words
 	temp = [][]rune {
@@ -184,6 +192,7 @@ func init() {
 		germanSmall.AddUnsorted(word)
 	}
 	germanSmall.Build()
+	germanSmall.Optimize()
 	
 	// Initiate exceptions for Italian small words
 	temp = [][]rune {
@@ -194,6 +203,7 @@ func init() {
 		italianSmall.AddUnsorted(word)
 	}
 	italianSmall.Build()
+	italianSmall.Optimize()
 	
 	// Initiate exceptions for Portuguese small words
 	temp = [][]rune {
@@ -204,6 +214,7 @@ func init() {
 		portugueseSmall.AddUnsorted(word)
 	}
 	portugueseSmall.Build()
+	portugueseSmall.Optimize()
 	
 	// Initiate exceptions for Spanish small words
 	temp = [][]rune {
@@ -214,6 +225,7 @@ func init() {
 		spanishSmall.AddUnsorted(word)
 	}
 	spanishSmall.Build()
+	spanishSmall.Optimize()
 	
 }
 
