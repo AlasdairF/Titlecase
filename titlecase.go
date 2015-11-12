@@ -29,7 +29,7 @@ import (
  "unicode"
  "unicode/utf8"
  "github.com/AlasdairF/BinSearch"
- "github.com/AlasdairF/Buffer"
+ "github.com/AlasdairF/Custom"
 )
 
 const (
@@ -713,7 +713,7 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 	}
 	
 	// Rebuild byte stream from words
-	buf := buffer.NewBuffer(64)
+	buf := custom.NewBuffer(64)
 	for i=0; i<l; i++ {
 		ws = &words[i]
 		ln = len(ws.content)
@@ -846,9 +846,9 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 	}
 	
 	// Rebuild what's left
-	first := buffer.NewBuffer(24)
-	middle := buffer.NewBuffer(24)
-	last := buffer.NewBuffer(24)
+	first := custom.NewBuffer(24)
+	middle := custom.NewBuffer(24)
+	last := custom.NewBuffer(24)
 	
 	// Get first and last name if there is a comma
 	if comma > 0 {
