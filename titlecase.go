@@ -714,6 +714,7 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 	
 	// Rebuild byte stream from words
 	buf := custom.NewBuffer(64)
+	
 	for i=0; i<l; i++ {
 		ws = &words[i]
 		ln = len(ws.content)
@@ -744,9 +745,12 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 		}
 	}
 	
+	bufString := buf.String()
+	buf.Close()
+	
 	// If it's only a title (not author) then end here
 	if !formatAuthor {
-		return buf.String(), nil
+		return bufString, nil
 	}
 		
 	author := new(AuthorStruct)
@@ -1017,7 +1021,10 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 	author.First = string(bytes.TrimRight(first.Bytes(), `, `))
 	author.Middle = string(bytes.TrimRight(middle.Bytes(), `, `))
 	author.Last = string(bytes.TrimRight(last.Bytes(), `, `))
+	first.Close()
+	middle.Close()
+	last.Close()
 	
-	return buf.String(), author
+	return bufString, author
 }
 
