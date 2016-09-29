@@ -452,6 +452,7 @@ func removeBytes(s []byte, a byte, b byte) []byte {
 }
 
 // Replaces an individual byte
+/*
 func replaceRune(s []rune, from rune, to rune) {
 	for i, v := range s {
 		if v == from {
@@ -459,6 +460,7 @@ func replaceRune(s []rune, from rune, to rune) {
 		}
 	}
 }
+*/
 
 func English(str string) string {
 	str, _ = format(str, Language_English, false)
@@ -637,7 +639,7 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 			if content[0] == 'm' && content[1] == 'c' {
 				upperRune(content, 0)
 				upperRune(content, 2)
-				replaceRune(ws.puncAfter, '.', ';')
+				//replaceRune(ws.puncAfter, '.', ';')
 				continue
 			}
 		}
@@ -673,7 +675,7 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 		
 		if _, ok = makecaps.Find(content); ok {
 			upperRune(content, -1)
-			replaceRune(ws.puncAfter, '.', ';')
+			//replaceRune(ws.puncAfter, '.', ';')
 			continue
 		}
 		
@@ -681,7 +683,7 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 		if ws.isStart || ws.isEnd {
 			upperRune(content, 0)
 			if ln > 1 {
-				replaceRune(ws.puncAfter, '.', ';')
+				//replaceRune(ws.puncAfter, '.', ';')
 			}
 			continue
 		}
@@ -690,7 +692,7 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 		if _, ok = small.Find(content); ok {
 			// Exception if it's 1 letter with following punctuation or the next word or previous word are also 1 letter
 			if ln > 1 {
-				replaceRune(ws.puncAfter, '.', ';')
+				//replaceRune(ws.puncAfter, '.', ';')
 				continue
 			}
 			if len(words[i-1].content) > 1 && len(words[i+1].content) > 1 {
@@ -708,7 +710,7 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 		}
 		
 		// Uppercase the first rune if none of the previous rules applied
-		replaceRune(ws.puncAfter, '.', ';')
+		//replaceRune(ws.puncAfter, '.', ';')
 		upperRune(content, 0)
 	}
 	
