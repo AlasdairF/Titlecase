@@ -542,7 +542,7 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 	// Load all into struct
 	var r rune
 	var i, w int
-	var isnumeric bool
+	//var isnumeric bool
 	words := make([]wordStruct, 0, 4)
 	word := newRuneBuf()
     for i=0; i<n; i+=w {
