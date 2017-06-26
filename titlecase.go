@@ -542,6 +542,7 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 	// Load all into struct
 	var r rune
 	var i, w int
+	var isnumeric bool
 	words := make([]wordStruct, 0, 4)
 	word := newRuneBuf()
     for i=0; i<n; i+=w {
@@ -648,7 +649,7 @@ func format(str string, language uint8, formatAuthor bool) (string, *AuthorStruc
 			// Special for English: repair grammatical error on a -> an
 			if ln == 1 {
 				if content[0] == 'a' {
-					if i < len(words) - 1 {
+					if i < len(words) - 1 && len(ws.puncAfter) == 0 {
 						tmp := words[i+1].content
 						if len(tmp) > 1 {
 							switch tmp[0] {
